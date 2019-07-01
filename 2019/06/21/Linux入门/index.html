@@ -92,7 +92,7 @@
         </div>
         <div class="post-toc" id="post-toc">
     <strong class="post-toc-title">目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-shell入门"><span class="toc-text">1.shell入门</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-文件系统中跳转"><span class="toc-text">2. 文件系统中跳转</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-shell入门"><span class="toc-text">1.shell入门</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-文件系统中跳转"><span class="toc-text">2. 文件系统中跳转</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-探究操作系统"><span class="toc-text">4. 探究操作系统</span></a></li></ol>
     <div class="back-to-top" id="back-to-top">
         <a href="javascript:void(0);">回到顶部</a>
     </div>
@@ -113,6 +113,20 @@
 <blockquote>
 <p>注意：在linux中，文件名和命令名都是大小写敏感的。比如<code>File</code>和<code>file</code>值得就是两个不同的文件名。</p>
 </blockquote>
+<h4 id="4-探究操作系统"><a href="#4-探究操作系统" class="headerlink" title="4. 探究操作系统"></a>4. 探究操作系统</h4><p><code>ls</code>后面可以接一个或者多个文件夹路径，这样可以列出一个或者多个文件夹中的内容。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ls /dir1 /dir2  列出`/dir1`和`/dir2`中的文件和文件夹</span><br></pre></td></tr></table></figure>
+
+<p>使用<code>ls -l</code>查看列出文件或者文件夹的更多内容，<code>ls -lt</code>查看列出文件或者文件夹的更多内容，并按时间顺序排序</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">total 256</span><br><span class="line">-rw-r--r--    1 guolizhi  staff   2229  7  1 12:54 _config.yml</span><br><span class="line">-rw-r--r--    1 guolizhi  staff  20405  7  1 13:04 db.json</span><br><span class="line">-rw-r--r--    1 guolizhi  staff   2698  6 27 15:59 debug.log</span><br><span class="line">drwxr-xr-x  813 guolizhi  staff  26016  6 21 21:30 node_modules</span><br><span class="line">-rw-r--r--    1 guolizhi  staff    519  6 21 21:30 package.json</span><br><span class="line">drwxr-xr-x    9 guolizhi  staff    288  7  1 13:04 public</span><br><span class="line">drwxr-xr-x    5 guolizhi  staff    160  6 21 16:52 scaffolds</span><br><span class="line">drwxr-xr-x    5 guolizhi  staff    160  6 21 21:50 source</span><br><span class="line">drwxr-xr-x    3 guolizhi  staff     96  6 27 16:20 themes</span><br><span class="line">-rw-r--r--    1 guolizhi  staff  97321  6 21 16:54 yarn.lock</span><br></pre></td></tr></table></figure>
+
+<p>ls可以加上的可选参数一览</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">-a  列出所有文件，包括以点开头的隐藏文件</span><br><span class="line">-d  列出制定文件夹（而不是文件夹内部）的信息</span><br><span class="line">-F  如果列出的是文件夹，在文件夹名后面需要加上/</span><br><span class="line">-h  将文件和文件夹的大小以K或者B列出（配合-l使用）</span><br><span class="line">-l  列出文件和文件夹的详细信息</span><br><span class="line">-r  以相反的顺序来显示结果</span><br><span class="line">-S  命令输出结果按照文件大小来排序</span><br><span class="line">-t  输出结果按照时间顺序来排序</span><br></pre></td></tr></table></figure>
+
+<p>使用<code>file filename</code>可以查看文件类型信息<br>使用<code>less filename</code>可以查看文件内容，如果文件内容多余1页，我们可以上下滚动，按Q键退出       </p>
+<p>linux中的文件夹的基本作用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">/       根目录</span><br><span class="line">/bin    包含系统启动和运行所必须的二进制程序</span><br><span class="line">/boot   包含 Linux 内核、初始 RAM 磁盘映像（用于启动时所需的驱动）和 启动加载程序。</span><br><span class="line">/dev    一个包含设备结点的特殊目录</span><br><span class="line">/ect    包含所有系统层面的配置文件</span><br><span class="line">/home   普通用户的操作目录</span><br><span class="line">/lib    包含核心系统程序所使用的共享库文件</span><br><span class="line">/tmp    是用来存储由各种程序创建的临时文件的地方</span><br><span class="line">/usr    包含普通用户所需要的所有程序和文件</span><br><span class="line">/var    包含日志文件、各种系统活动的记录</span><br></pre></td></tr></table></figure>
+
+<p>符号链接（也称为软链接或者<code>symlink</code>）。在大多数类Unix系统中，有可能被一个或者多个文件名指向。一个很实用的例子就是，使用软链接来管理文件的版本。</p>
 
         </div>
         
