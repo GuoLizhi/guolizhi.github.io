@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <title>GuoLizhi(郭励之) 前端博客</title>
+    <meta name="description" content="前端学习笔记，前端心得体会，JavaScript学习，Node学习">
+    <meta name="keywords" content="前端学习笔记，前端心得体会，JavaScript学习，Node学习">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/gitment.css">
+    <link rel="stylesheet" type="text/css" href="//at.alicdn.com/t/font_859455_eaq7v6w8ktj.css">
+</head>
+<body>
+<header class="header">
+    <div class="header-inner">
+        <div class="header-title">
+
+        </div>
+        <nav class="header-nav">
+            
+            <a href="/" class="header-nav-link" >
+                首页
+            </a>
+            
+
+            
+            <a href="/archives" class="header-nav-link">
+                归档
+            </a>
+            
+
+            
+            <a href="/tags" class="header-nav-link">
+                标签
+            </a>
+            
+
+            
+        </nav>
+    </div>
+</header>
+<header class="mobile-header">
+    <div class="mobile-nav">
+        <div class="mobile-nav-icon">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="mobile-nav-title">
+            <a href="/" class="mobile-nav-title-link">Guolizhi's Blog</a>
+        </div>
+
+    </div>
+    <nav class="mobile-menu">
+        <ul class="mobile-menu-list">
+            <li class="mobile-menu-item">
+                <i class="iconfont icon-home"></i>
+                <a href="/" class="mobile-nav-link">首页</a>
+            </li>
+            <li class="mobile-menu-item">
+                <i class="iconfont icon-archive"></i>
+                <a href="/archives" class="mobile-nav-link">归档</a>
+            </li>
+            <li class="mobile-menu-item">
+                <i class="iconfont icon-tag"></i>
+                <a href="/tags" class="mobile-nav-link">标签</a>
+            </li>
+            <li class="mobile-menu-item">
+                <i class="iconfont icon-about"></i>
+                <a href="/about/" class="mobile-nav-link">关于</a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<div class="main">
+    <div class="content-inner">
+        <div class="posts">
+    <article class="post-whole">
+        <div class="post-title">
+            <h2 class="title">TypeScript查漏补缺</h2>
+            <div class="post-meta">
+                <span class="post-time">2019-07-01</span>
+                
+                <span class="post-category">
+                    
+                    <a class="category" href="/categories/前端/">前端</a>
+                    
+                </span>
+                
+                <span class="post-visit"> 阅读次数：<span id="busuanzi_value_page_pv"></span></span>
+            </div>
+        </div>
+        <div class="post-toc" id="post-toc">
+    <strong class="post-toc-title">目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-strictNullChecks"><span class="toc-text">1. strictNullChecks</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-类型断言"><span class="toc-text">2.类型断言</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-对象的解构"><span class="toc-text">3.对象的解构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-只读属性"><span class="toc-text">4.只读属性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-额外属性检查"><span class="toc-text">5.额外属性检查</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-接口继承"><span class="toc-text">6.接口继承</span></a></li></ol>
+    <div class="back-to-top" id="back-to-top">
+        <a href="javascript:void(0);">回到顶部</a>
+    </div>
+</div>
+        <div class="post-content">
+            <p>现在的前端项目中TypeScript使用越来越广泛，可以说是一种前端工程化的趋势，TypeScript可以在编译器避免很多BUG，使用TypeScript的主要优势在于它的强类型检测，还有class, interface之类好用的语法糖。可以说是前端开发中的一大利器</p>
+<a id="more"></a>
+<h4 id="1-strictNullChecks"><a href="#1-strictNullChecks" class="headerlink" title="1. strictNullChecks"></a>1. strictNullChecks</h4><p>默认情况下，<code>null</code>和<code>undefined</code>是所有类型的子类型。比如<code>string</code>， <code>number</code>，但是如果我们开启了<code>--strictNullChecks</code>。null和undefined就只能赋值给他们自己或者void</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// --strictNullChecks</span></span><br><span class="line"><span class="keyword">let</span> a: number = <span class="literal">null</span>; <span class="comment">// Error</span></span><br><span class="line"><span class="keyword">let</span> b: string = <span class="literal">undefined</span>; <span class="comment">// Error</span></span><br><span class="line"><span class="keyword">let</span> c: <span class="literal">null</span> = <span class="literal">null</span>; <span class="comment">// OK</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="2-类型断言"><a href="#2-类型断言" class="headerlink" title="2.类型断言"></a>2.类型断言</h4><p>如果我们已经明确了某个变量的类型，我们可以直接使用类型断言，进而使用在类型下面的方法</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> a: <span class="built_in">any</span> = <span class="string">'hello world'</span>;</span><br><span class="line"><span class="keyword">let</span> len: <span class="built_in">number</span> = (&lt;<span class="built_in">string</span>&gt;a).length;</span><br><span class="line"><span class="comment">// 或者另外一种写法</span></span><br><span class="line"><span class="keyword">let</span> len1: <span class="built_in">number</span> = (a <span class="keyword">as</span> <span class="built_in">string</span>).length;</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-对象的解构"><a href="#3-对象的解构" class="headerlink" title="3.对象的解构"></a>3.对象的解构</h4><p>在对象中我们也可以使用<code>...</code>语法创建剩余变量</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> obj = &#123;</span><br><span class="line">    a: <span class="string">'123'</span>,</span><br><span class="line">    b: <span class="number">10</span>,</span><br><span class="line">    c: <span class="string">'456'</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">let</span> &#123;a, ...passthrough&#125; = obj;</span><br><span class="line"><span class="keyword">let</span> total = passthrough.b + passthrough.c.length; <span class="comment">// 13</span></span><br></pre></td></tr></table></figure>
+
+<p>对象赋值解构时，如果要指定类型，应该这么指定</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> &#123;a, b&#125;: &#123;a: <span class="built_in">number</span>, b: <span class="built_in">string</span>&#125; = obj;</span><br></pre></td></tr></table></figure>
+
+<h4 id="4-只读属性"><a href="#4-只读属性" class="headerlink" title="4.只读属性"></a>4.只读属性</h4><p>在定义接口时，我们可以使用readonly来定义只读属性</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> Point &#123;</span><br><span class="line">    readonly x: <span class="built_in">number</span>;</span><br><span class="line">    readonly y: <span class="built_in">number</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> p: Point = &#123;x: <span class="number">10</span>, y: <span class="number">20</span>&#125;;</span><br><span class="line">p.x = <span class="number">100</span>; <span class="comment">// Error</span></span><br></pre></td></tr></table></figure>
+
+<p>对应的数组也有只读数组<code>ReadonlyArray</code></p>
+<h4 id="5-额外属性检查"><a href="#5-额外属性检查" class="headerlink" title="5.额外属性检查"></a>5.额外属性检查</h4><p>在使用接口指定某个对象时，如果我们传入了额外的属性，那TypeScript的检查将会不通过</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> SquareCfg &#123;</span><br><span class="line">    width?: <span class="built_in">number</span>;</span><br><span class="line">    color?: <span class="built_in">string</span>;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">createSquare</span>(<span class="params">config: SquareCfg</span>) </span>&#123;&#125;</span><br><span class="line">createSquare(&#123;width: <span class="number">30</span>, background: <span class="string">'red'</span>&#125;); <span class="comment">// Error, background会被`额外属性检查检测出来`</span></span><br></pre></td></tr></table></figure>
+
+<p>如果要避免这种额外属性检查，最好的处理方式是：</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> SquareCfg &#123;</span><br><span class="line">    width?: <span class="built_in">number</span>;</span><br><span class="line">    color?: <span class="built_in">string</span>;</span><br><span class="line">    [propName: <span class="built_in">string</span>]: <span class="built_in">any</span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>但是在我们日常开发中，最好不要去试图绕过这些检查，这可能带来一些意外的BUG.</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 使用接口描述数组</span></span><br><span class="line"><span class="keyword">interface</span> StringArray &#123;</span><br><span class="line">    [index: <span class="built_in">number</span>]: <span class="built_in">string</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 使用接口描述函数</span></span><br><span class="line"><span class="keyword">interface</span> SearchFunc &#123;</span><br><span class="line">    (source: <span class="built_in">string</span>, sub: <span class="built_in">string</span>): <span class="built_in">boolean</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="6-接口继承"><a href="#6-接口继承" class="headerlink" title="6.接口继承"></a>6.接口继承</h4><p>一个接口可以继承多个接口，创建出多个接口的合成接口</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> Shape &#123;</span><br><span class="line">    color: <span class="built_in">string</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">interface</span> PenStoke &#123;</span><br><span class="line">    penWidth: <span class="built_in">number</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">interface</span> Square <span class="keyword">extends</span> Shape, PenStroke &#123;</span><br><span class="line">    sideLength: <span class="built_in">number</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        </div>
+        
+        <div class="post-tag">
+            
+            <a class="tag" href="/tags/TypeScript/" title="TypeScript">TypeScript</a>
+            
+        </div>
+        
+    </article>
+</div>
+<div class="paginator">
+    
+        
+        
+            <a class="next" href="/2019/06/27/前端安全/">
+                <span class="nav-default">前端安全</span>
+                <span class="nav-mobile">下一篇</span>
+                <i class="iconfont icon-next"></i>
+            </a>
+        
+    
+</div>
+<div id="comment-container"></div>
+    </div>
+</div>
+<footer class="footer-social">
+    
+    <a class="social-link" target="_blank" href="https://github.com/GuoLizhi">
+        <i class="iconfont icon-github"></i>
+    </a>
+    
+
+    
+
+    
+
+    <div class="footer-copyright">
+        <p class="time-line">
+            &copy;
+            
+            
+            2019
+            &nbsp;<i class="iconfont icon-heart"></i>&nbsp;
+            <a target="_blank" href="https://github.com/iJinxin">Guolizhi</a>
+        </p>
+        <p class="theme-info">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>  |  Theme -
+            <a target="_blank" href="https://github.com/iJinxin/hexo-theme-sky">Sky</a>
+        </p>
+    </div>
+</footer>
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="/js/index.js"></script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+    
+    var gitment = new Gitment({
+        id: 'TypeScript查漏补缺',
+        owner: 'GuoLizhi',
+        repo: 'guolizhi.github.io',
+        oauth: {
+            client_id: '32379393186e57f0d4ff',
+            client_secret: '73f7da06ffac8b5788482c72b40506a1e75905de'
+        }
+    });
+    gitment.render('comment-container');
+    
+
+</script>
+</html>
