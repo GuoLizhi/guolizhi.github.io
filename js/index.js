@@ -83,4 +83,12 @@
 
     var sky = new Sky();
     sky.init();
+
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?598550ee27ef1fde948a198e904ba08c";
+        var s = document.getElementsByTagName("script")[0]; 
+        s.parentNode.insertBefore(hm, s);
+    })();
 })(window);
