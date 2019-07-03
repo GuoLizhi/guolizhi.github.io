@@ -92,7 +92,7 @@
         </div>
         <div class="post-toc" id="post-toc">
     <strong class="post-toc-title">目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-shell入门"><span class="toc-text">1.shell入门</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-文件系统中跳转"><span class="toc-text">2. 文件系统中跳转</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-探究操作系统"><span class="toc-text">4. 探究操作系统</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-shell入门"><span class="toc-text">1.shell入门</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-文件系统中跳转"><span class="toc-text">2. 文件系统中跳转</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-探究操作系统"><span class="toc-text">3. 探究操作系统</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-操作文件和目录"><span class="toc-text">4.操作文件和目录</span></a></li></ol>
     <div class="back-to-top" id="back-to-top">
         <a href="javascript:void(0);">回到顶部</a>
     </div>
@@ -113,7 +113,7 @@
 <blockquote>
 <p>注意：在linux中，文件名和命令名都是大小写敏感的。比如<code>File</code>和<code>file</code>值得就是两个不同的文件名。</p>
 </blockquote>
-<h4 id="4-探究操作系统"><a href="#4-探究操作系统" class="headerlink" title="4. 探究操作系统"></a>4. 探究操作系统</h4><p><code>ls</code>后面可以接一个或者多个文件夹路径，这样可以列出一个或者多个文件夹中的内容。</p>
+<h4 id="3-探究操作系统"><a href="#3-探究操作系统" class="headerlink" title="3. 探究操作系统"></a>3. 探究操作系统</h4><p><code>ls</code>后面可以接一个或者多个文件夹路径，这样可以列出一个或者多个文件夹中的内容。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ls /dir1 /dir2  列出`/dir1`和`/dir2`中的文件和文件夹</span><br></pre></td></tr></table></figure>
 
 <p>使用<code>ls -l</code>查看列出文件或者文件夹的更多内容，<code>ls -lt</code>查看列出文件或者文件夹的更多内容，并按时间顺序排序</p>
@@ -127,7 +127,17 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">/       根目录</span><br><span class="line">/bin    包含系统启动和运行所必须的二进制程序</span><br><span class="line">/boot   包含 Linux 内核、初始 RAM 磁盘映像（用于启动时所需的驱动）和 启动加载程序。</span><br><span class="line">/dev    一个包含设备结点的特殊目录</span><br><span class="line">/ect    包含所有系统层面的配置文件</span><br><span class="line">/home   普通用户的操作目录</span><br><span class="line">/lib    包含核心系统程序所使用的共享库文件</span><br><span class="line">/tmp    是用来存储由各种程序创建的临时文件的地方</span><br><span class="line">/usr    包含普通用户所需要的所有程序和文件</span><br><span class="line">/var    包含日志文件、各种系统活动的记录</span><br></pre></td></tr></table></figure>
 
 <p>符号链接（也称为软链接或者<code>symlink</code>）。在大多数类Unix系统中，有可能被一个或者多个文件名指向。一个很实用的例子就是，使用软链接来管理文件的版本。</p>
+<h4 id="4-操作文件和目录"><a href="#4-操作文件和目录" class="headerlink" title="4.操作文件和目录"></a>4.操作文件和目录</h4><p>shell中的通配符</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">*               匹配任意多个字符</span><br><span class="line">?               匹配任意一个字符</span><br><span class="line">[characters]    匹配任意一个属于字符集中的字符</span><br><span class="line">[!characters]   匹配任意一个不属于字符集中的字符</span><br><span class="line">[[:class:]]     匹配任意一个属于指定字符类中的字符(alnum, alpha, digit, lower, upper)</span><br></pre></td></tr></table></figure>
 
+<p><code>mkdir</code>用来创建一个文件件，后面可以跟多个文件夹的名称，一次性创建多个文件夹</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir dir1 dir2 dir3</span><br></pre></td></tr></table></figure>
+
+<p><code>cp</code>用来复制文件或者目录</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># 复制file1，并将其重命名为file2</span><br><span class="line">cp file1 file2</span><br><span class="line"># 复制file1到dir1中</span><br><span class="line">cp file1 dir1/</span><br><span class="line"># 复制多个文件到dir1中</span><br><span class="line">cp file1 file2 dir1/</span><br><span class="line"># 在目录dir1中的所有文件都被复制到目录dir2中</span><br><span class="line">cp dir1/* dir2</span><br></pre></td></tr></table></figure>
+
+<p><code>mv</code>命令可以执行文件移动和文件命名的任务</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 将文件item1重命名为item2</span><br><span class="line">mv item1 item2</span><br><span class="line"># 将文件item1移动到dir中</span><br><span class="line">mv item1 dir</span><br></pre></td></tr></table></figure>
         </div>
         
         <div class="post-tag">
