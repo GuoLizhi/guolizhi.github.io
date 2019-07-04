@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <title>GuoLizhi(郭励之) 前端博客</title>
+    <meta name="description" content="前端学习笔记，前端心得体会，JavaScript学习，Node学习">
+    <meta name="keywords" content="前端学习笔记，前端心得体会，JavaScript学习，Node学习">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/gitment.css">
+    <link rel="stylesheet" type="text/css" href="//at.alicdn.com/t/font_859455_eaq7v6w8ktj.css">
+</head>
+<body>
+<header class="header">
+    <div class="header-inner">
+        <div class="header-title">
+
+        </div>
+        <nav class="header-nav">
+            
+            <a href="/" class="header-nav-link" >
+                首页
+            </a>
+            
+
+            
+            <a href="/archives" class="header-nav-link">
+                归档
+            </a>
+            
+
+            
+            <a href="/tags" class="header-nav-link">
+                标签
+            </a>
+            
+
+            
+        </nav>
+    </div>
+</header>
+<header class="mobile-header">
+    <div class="mobile-nav">
+        <div class="mobile-nav-icon">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="mobile-nav-title">
+            <a href="/" class="mobile-nav-title-link">Guolizhi's Blog</a>
+        </div>
+
+    </div>
+    <nav class="mobile-menu">
+        <ul class="mobile-menu-list">
+            <li class="mobile-menu-item">
+                <i class="iconfont icon-home"></i>
+                <a href="/" class="mobile-nav-link">首页</a>
+            </li>
+            <li class="mobile-menu-item">
+                <i class="iconfont icon-archive"></i>
+                <a href="/archives" class="mobile-nav-link">归档</a>
+            </li>
+            <li class="mobile-menu-item">
+                <i class="iconfont icon-tag"></i>
+                <a href="/tags" class="mobile-nav-link">标签</a>
+            </li>
+            <li class="mobile-menu-item">
+                <i class="iconfont icon-about"></i>
+                <a href="/about/" class="mobile-nav-link">关于</a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<div class="main">
+    <div class="content-inner">
+        <div class="posts">
+    <article class="post-whole">
+        <div class="post-title">
+            <h2 class="title">前端安全</h2>
+            <div class="post-meta">
+                <span class="post-time">2019-07-03</span>
+                
+                <span class="post-category">
+                    
+                    <a class="category" href="/categories/前端/">前端</a>
+                    
+                </span>
+                
+                <span class="post-visit"> 阅读次数：<span id="busuanzi_value_page_pv"></span></span>
+            </div>
+        </div>
+        <div class="post-toc" id="post-toc">
+    <strong class="post-toc-title">目录</strong>
+    
+    <div class="back-to-top" id="back-to-top">
+        <a href="javascript:void(0);">回到顶部</a>
+    </div>
+</div>
+        <div class="post-content">
+            <p>经常会有面试官问道“如何手动实现一个符合Promise/A+规范的简易版Promise”。当然通过面试不是我们的最终目的，熟练掌握其内部实现原理才是根本。</p>
+<a id="more"></a>
+<p>在写代码之前，我们需要知道Promise的三种状态，即<code>pending, resoled, rejected</code>。整个Promise的初始状态是<code>pending</code>，然后根据后续的处理情况状态会变为resoled或者rejected</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum</span> Status &#123;</span><br><span class="line">    PENDING,</span><br><span class="line">    RESOLVED,</span><br><span class="line">    REJECTED</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>首先我们要弄清楚Promise的调用过程，在创建Promise的过程时，我们通常会<code>new Promise(executor)</code>。整个Promise的构造函数接受一个executor函数，该函数接收两个参数一个是resolve，一个是reject。<br>但是经过简单的分析我们可以知道resolve和reject也是两个函数，并且这两个函数应该是Promise类内部帮我们实现好的。</p>
+<p>下面我们来看Promise内部需要哪些属性：</p>
+<ul>
+<li>我们需要一个存储当前Promise状态的status</li>
+<li>一个保存Promise成功时的值，方便我们传给resolve函数</li>
+<li>一个保存Promise失败时的值，方便我们传给reject函数</li>
+<li>一个存储Promise成功时回调函数的数组</li>
+<li>一个存储Promise失败时的回调函数的数组</li>
+</ul>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> state: Status = Status.PENDING;</span><br><span class="line"><span class="keyword">private</span> value: V = <span class="literal">null</span>;</span><br><span class="line"><span class="keyword">private</span> reason: R = <span class="literal">null</span>;</span><br><span class="line"><span class="keyword">private</span> resolvedCallbacks: IStatusFunc&lt;V&gt;[] = [];</span><br><span class="line"><span class="keyword">private</span> rejectedCallbacks: IStatusFunc&lt;R&gt;[] = [];</span><br></pre></td></tr></table></figure>
+
+<p>我们也需要定义Promise内部的resolve和reject函数，这两个函数即分别执行成功和失败的回调函数。</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 将当前Promise的状态修改为resolved</span></span><br><span class="line"><span class="comment">// 并执行resolve时的回调函数</span></span><br><span class="line"><span class="keyword">let</span> resolve: IStatusFunc&lt;V&gt; = <span class="function">(<span class="params">value</span>) =&gt;</span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.state === Status.PENDING) &#123;</span><br><span class="line">        <span class="keyword">this</span>.state = Status.RESOLVED;</span><br><span class="line">        <span class="keyword">this</span>.value = value;</span><br><span class="line">        <span class="keyword">this</span>.resolvedCallbacks.forEach(<span class="function"><span class="params">callback</span> =&gt;</span> &#123;</span><br><span class="line">            callback(value);</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 将Promise的状态修改为rejected</span></span><br><span class="line"><span class="comment">// 并执行reject时的回调函数</span></span><br><span class="line"><span class="keyword">let</span> reject: IStatusFunc&lt;R&gt; = <span class="function">(<span class="params">reason</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.state === Status.PENDING) &#123;</span><br><span class="line">        <span class="keyword">this</span>.state = Status.REJECTED;</span><br><span class="line">        <span class="keyword">this</span>.reason = reason;</span><br><span class="line">        <span class="keyword">this</span>.rejectedCallbacks.forEach(<span class="function"><span class="params">callback</span> =&gt;</span> &#123;</span><br><span class="line">            callback(reason);</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>接下来就是实现Promise中最为重要的一步，then方法，它可以实现链式调用。我们知道在jQuery中，链式调用的方式是在方法的尾部返回jQuery对象this。但显然这种方式在Promise中行不通，因为Promise的主要任务是解决异步操作，异步操作里面的return是无效的。<br>我们首先想到的就是在then中返回一个Promise对象，这样返回的Promise就可以继续调用其原型链上的then方法。但此时，如果单纯的执行<code>onFullfilled</code>或者<code>onRejected</code>回调函数的话，此时是不会有resolve或者reject这个过程的，所以为了让Promise有链式调用的功能，我们就需要有一个专门解析<code>onFullFilled</code>和<code>onRejected</code>返回值得函数</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 解析onFullfilled或者onRejected的返回值</span></span><br><span class="line"><span class="comment"> * @param promise2 then函数返回的新的Promise</span></span><br><span class="line"><span class="comment"> * @param x onFullfilled或者onRejected的返回值</span></span><br><span class="line"><span class="comment"> * @param resolve 成功时的回调</span></span><br><span class="line"><span class="comment"> * @param reject  失败时的回调</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">private</span> resolvePromise(promise2: MyPromise&lt;V, R&gt;, x: <span class="built_in">any</span>, resolve: IStatusFunc&lt;V&gt;, reject: IStatusFunc&lt;R&gt;) &#123;</span><br><span class="line">    <span class="comment">// 禁止循环引用</span></span><br><span class="line">    <span class="keyword">if</span> (x === promise2) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'Chaining cycle detected for promise'</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 是否已经调用过的标记</span></span><br><span class="line">    <span class="keyword">let</span> called: <span class="built_in">boolean</span> = <span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">if</span> (x !== <span class="literal">null</span> &amp;&amp; (<span class="keyword">typeof</span> x === <span class="string">'object'</span> || <span class="keyword">typeof</span> x === <span class="string">'function'</span>)) &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">// 如果x.then依旧是function，代表x是promise对象</span></span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">typeof</span> x.then === <span class="string">'function'</span>) &#123;</span><br><span class="line">                <span class="comment">// x.then继续执行，第一个参数是this，后面依次是成功回调和失败的回调</span></span><br><span class="line">                x.then.call(x, <span class="function"><span class="params">y</span> =&gt;</span> &#123;</span><br><span class="line">                    <span class="comment">// 成功和失败只能调用一个</span></span><br><span class="line">                    <span class="keyword">if</span> (called) <span class="keyword">return</span>;</span><br><span class="line">                    called = <span class="literal">true</span>;</span><br><span class="line">                    <span class="keyword">this</span>.resolvePromise(promise2, y, resolve, reject);</span><br><span class="line">                &#125;, <span class="function"><span class="params">err</span> =&gt;</span> &#123;</span><br><span class="line">                    <span class="comment">// 成功和失败只能调用一个</span></span><br><span class="line">                    <span class="keyword">if</span> (called) <span class="keyword">return</span>;</span><br><span class="line">                    called = <span class="literal">true</span>;</span><br><span class="line">                    reject(err);</span><br><span class="line">                &#125;);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                resolve(x);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span>(e) &#123;</span><br><span class="line">            <span class="keyword">if</span> (called) <span class="keyword">return</span>;</span><br><span class="line">            called = <span class="literal">true</span>;</span><br><span class="line">            reject(e);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// 如果是普通类型，直接resolve</span></span><br><span class="line">        resolve(x);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>then方法的实现也比较简单</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * then方法</span></span><br><span class="line"><span class="comment"> * @param onFullfilled 成功的回调函数</span></span><br><span class="line"><span class="comment"> * @param onRejected 失败的回调函数</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">then(onFullfilled: IStatusFunc&lt;V&gt;, onRejected?: IStatusFunc&lt;R&gt;) &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 返回Promise的目的是为了链式调用</span></span><br><span class="line">    <span class="keyword">let</span> promise2 = <span class="keyword">new</span> MyPromise&lt;V, R&gt;<span class="function">(<span class="params">(<span class="params">resolve: IStatusFunc&lt;V&gt;, reject: IStatusFunc&lt;R&gt;</span>) =&gt; &#123;</span></span></span><br><span class="line"><span class="function"><span class="params">        <span class="keyword">if</span> (<span class="params"><span class="keyword">this</span>.state === Status.RESOLVED</span>) &#123;</span></span></span><br><span class="line"><span class="function"><span class="params">            <span class="keyword">let</span> x = onFullfilled(<span class="params"><span class="keyword">this</span>.value</span>);</span></span></span><br><span class="line"><span class="function"><span class="params">            <span class="keyword">this</span>.resolvePromise(<span class="params">promise2, x, resolve, reject</span>);</span></span></span><br><span class="line"><span class="function"><span class="params">        &#125;</span></span></span><br><span class="line"><span class="function"><span class="params">        <span class="keyword">if</span> (<span class="params"><span class="keyword">this</span>.state === Status.REJECTED</span>) &#123;</span></span></span><br><span class="line"><span class="function"><span class="params">            <span class="keyword">let</span> x = onRejected(<span class="params"><span class="keyword">this</span>.reason</span>);</span></span></span><br><span class="line"><span class="function"><span class="params">            <span class="keyword">this</span>.resolvePromise(<span class="params">promise2, x, resolve, reject</span>);</span></span></span><br><span class="line"><span class="function"><span class="params">        &#125;</span></span></span><br><span class="line"><span class="function"><span class="params">        <span class="keyword">if</span> (<span class="params"><span class="keyword">this</span>.state === Status.PENDING</span>) &#123;</span></span></span><br><span class="line"><span class="function"><span class="params">            <span class="keyword">this</span>.resolvedCallbacks.push(<span class="params">(<span class="params"></span>) =&gt; &#123;</span></span></span></span><br><span class="line"><span class="function"><span class="params"><span class="params">                <span class="keyword">let</span> x = onFullfilled(<span class="params"><span class="keyword">this</span>.value</span>);</span></span></span></span><br><span class="line"><span class="function"><span class="params"><span class="params">                <span class="keyword">this</span>.resolvePromise(<span class="params">promise2, x, resolve, reject</span>);</span></span></span></span><br><span class="line"><span class="function"><span class="params"><span class="params">            &#125;</span>);</span></span></span><br><span class="line"><span class="function"><span class="params">            <span class="keyword">this</span>.rejectedCallbacks.push(<span class="params">(<span class="params"></span>) =&gt; &#123;</span></span></span></span><br><span class="line"><span class="function"><span class="params"><span class="params">                <span class="keyword">let</span> x = onRejected(<span class="params"><span class="keyword">this</span>.reason</span>);</span></span></span></span><br><span class="line"><span class="function"><span class="params"><span class="params">                <span class="keyword">this</span>.resolvePromise(<span class="params">promise2, x, resolve, reject</span>);</span></span></span></span><br><span class="line"><span class="function"><span class="params"><span class="params">            &#125;</span>);</span></span></span><br><span class="line"><span class="function"><span class="params">        &#125;</span></span></span><br><span class="line"><span class="function"><span class="params">    &#125;</span>);</span></span><br><span class="line"><span class="function">    <span class="params">return</span> <span class="params">promise2</span>;</span></span><br><span class="line"><span class="function">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>完整版的代码可以参考我的<a href="http://www.google.com/" target="_blank" rel="noopener">Github</a></p>
+
+        </div>
+        
+        <div class="post-tag">
+            
+            <a class="tag" href="/tags/JavaScript/" title="JavaScript">JavaScript</a>
+            
+        </div>
+        
+    </article>
+</div>
+<div class="paginator">
+    
+        
+        
+            <a class="next" href="/2019/07/01/TypeScript查漏补缺/">
+                <span class="nav-default">TypeScript查漏补缺</span>
+                <span class="nav-mobile">下一篇</span>
+                <i class="iconfont icon-next"></i>
+            </a>
+        
+    
+</div>
+<div id="comment-container"></div>
+    </div>
+</div>
+<footer class="footer-social">
+    
+    <a class="social-link" target="_blank" href="https://github.com/GuoLizhi">
+        <i class="iconfont icon-github"></i>
+    </a>
+    
+
+    
+
+    
+
+    <div class="footer-copyright">
+        <p class="time-line">
+            &copy;
+            
+            
+            2019
+            &nbsp;<i class="iconfont icon-heart"></i>&nbsp;
+            <a target="_blank" href="https://github.com/iJinxin">Guolizhi</a>
+        </p>
+        <p class="theme-info">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>  |  Theme -
+            <a target="_blank" href="https://github.com/iJinxin/hexo-theme-sky">Sky</a>
+        </p>
+    </div>
+</footer>
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="/js/index.js"></script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+    
+    var gitment = new Gitment({
+        id: '前端安全',
+        owner: 'GuoLizhi',
+        repo: 'guolizhi.github.io',
+        oauth: {
+            client_id: '32379393186e57f0d4ff',
+            client_secret: '73f7da06ffac8b5788482c72b40506a1e75905de'
+        }
+    });
+    gitment.render('comment-container');
+    
+
+</script>
+</html>
