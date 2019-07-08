@@ -138,6 +138,19 @@
 
 <p><code>mv</code>命令可以执行文件移动和文件命名的任务</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 将文件item1重命名为item2</span><br><span class="line">mv item1 item2</span><br><span class="line"># 将文件item1移动到dir中</span><br><span class="line">mv item1 dir</span><br></pre></td></tr></table></figure>
+
+<p><code>rm</code> 删除文件和目录</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">-i      在删除已存在的文件前，提示用户确认信息</span><br><span class="line">-r      递归删除文件，这意味着子文件夹中的内容也会被删除</span><br><span class="line">-f      忽视不存在的文件，不显示提示信息</span><br><span class="line">-v      在执行rm命令时，显示操作信息</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>当你使用带有通配符的rm命令时，先用ls命令来测试通配符。注意误删</p>
+</blockquote>
+<p><code>ln</code> 创建链接，既可以创建硬链接，也可以创建符号链接</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ln item link    创建硬链接</span><br><span class="line">ln -s item link 创建软链接</span><br></pre></td></tr></table></figure>
+
+<p>一个硬链接和文件本身没什么区别。当一个硬链接被删除时，这个链接被删除，但是文件本身的内容仍然在，直到所有关联这个文件的链接都删除掉。</p>
+<p>一个符号链接指向一个文件，而且这个符号链接本身与其它的符号链接几乎没什么区别。例如你往一个符号链接中写入，那么关联的文件也会被写入。如果先于符号链接删除文件，这个链接依然存在。这种情况下，这个链接被称为怀链接。</p>
+
         </div>
         
         <div class="post-tag">
