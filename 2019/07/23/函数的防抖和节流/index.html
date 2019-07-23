@@ -75,18 +75,24 @@
 <div class="main">
     <div class="content-inner">
         <div class="posts">
-    
-        <article class="post-abstract">
-            <div class="post-title">
-                <h2><a class="post-title-link" href="/2019/07/23/函数的防抖和节流/"></a></h2>
-            </div>
+    <article class="post-whole">
+        <div class="post-title">
+            <h2 class="title"></h2>
             <div class="post-meta">
                 <span class="post-time">2019-07-23</span>
                 
+                <span class="post-visit"> 阅读次数：<span id="busuanzi_value_page_pv"></span></span>
             </div>
-            <div class="post-content">
-                
-                    <p><strong>防抖</strong>：将几次操作合并为一此操作进行。原理是维护一个计时器，规定在delay时间后触发函数，但是在delay时间内再次触发的话，就会取消之前的计时器而重新设置。这样一来，只有最后一次操作能被触发。</p>
+        </div>
+        <div class="post-toc" id="post-toc">
+    <strong class="post-toc-title">目录</strong>
+    
+    <div class="back-to-top" id="back-to-top">
+        <a href="javascript:void(0);">回到顶部</a>
+    </div>
+</div>
+        <div class="post-content">
+            <p><strong>防抖</strong>：将几次操作合并为一此操作进行。原理是维护一个计时器，规定在delay时间后触发函数，但是在delay时间内再次触发的话，就会取消之前的计时器而重新设置。这样一来，只有最后一次操作能被触发。</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">debounce</span> (<span class="params">fn, wait</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> timeout = <span class="literal">null</span></span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (timeout !== <span class="literal">null</span>) &#123;</span><br><span class="line">      clearTimeout(timeout)</span><br><span class="line">    &#125;</span><br><span class="line">    timeout = setTimeout(fn, wait)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p><strong>节流</strong>：使得一定时间内只触发一次函数。原理是通过判断是否到达一定时间来触发函数。<br>使用计时器实现的节流函数</p>
@@ -97,126 +103,23 @@
 
 <p><strong>节流和防抖的区别</strong>：函数节流不管事件触发有多频繁，都会保证在规定时间内一定会执行一次真正的事件处理函数，而函数防抖只是在最后一次事件后才触发一次函数。 比如在页面的无限加载场景下，我们需要用户在滚动页面时，每隔一段时间发一次 Ajax 请求，而不是在用户停下滚动页面操作时才去请求数据。这样的场景，就适合用节流技术来实现。</p>
 
-                
-            </div>
-        </article>
-    
-        <article class="post-abstract">
-            <div class="post-title">
-                <h2><a class="post-title-link" href="/2019/07/03/手写一个Promise/">手动实现一个Promise</a></h2>
-            </div>
-            <div class="post-meta">
-                <span class="post-time">2019-07-03</span>
-                
-                <span class="post-category">
-                    
-                    <a class="category" href="/categories/前端/">前端</a>
-                    
-                </span>
-                
-            </div>
-            <div class="post-content">
-                
-                    <p>经常会有面试官问道“如何手动实现一个符合Promise/A+规范的简易版Promise”。当然通过面试不是我们的最终目的，熟练掌握其内部实现原理才是根本。</p>
-                    <div class="read-more">
-                        <a href="/2019/07/03/手写一个Promise/" class="read-more-link">
-                            阅读全文
-                            <i class="iconfont icon-readmore"></i>
-                        </a>
-                    </div>
-                
-            </div>
-        </article>
-    
-        <article class="post-abstract">
-            <div class="post-title">
-                <h2><a class="post-title-link" href="/2019/07/01/TypeScript查漏补缺/">TypeScript查漏补缺</a></h2>
-            </div>
-            <div class="post-meta">
-                <span class="post-time">2019-07-01</span>
-                
-                <span class="post-category">
-                    
-                    <a class="category" href="/categories/前端/">前端</a>
-                    
-                </span>
-                
-            </div>
-            <div class="post-content">
-                
-                    <p>现在的前端项目中TypeScript使用越来越广泛，可以说是一种前端工程化的趋势，TypeScript可以在编译器避免很多BUG，使用TypeScript的主要优势在于它的强类型检测，还有class, interface之类好用的语法糖。可以说是前端开发中的一大利器</p>
-                    <div class="read-more">
-                        <a href="/2019/07/01/TypeScript查漏补缺/" class="read-more-link">
-                            阅读全文
-                            <i class="iconfont icon-readmore"></i>
-                        </a>
-                    </div>
-                
-            </div>
-        </article>
-    
-        <article class="post-abstract">
-            <div class="post-title">
-                <h2><a class="post-title-link" href="/2019/06/27/前端安全/">前端安全</a></h2>
-            </div>
-            <div class="post-meta">
-                <span class="post-time">2019-06-27</span>
-                
-                <span class="post-category">
-                    
-                    <a class="category" href="/categories/前端/">前端</a>
-                    
-                </span>
-                
-            </div>
-            <div class="post-content">
-                
-                    <p>本文主要介绍前端容易出现的各种安全问题，以及各种防御手段。在前端工程越来越复杂的今天，安全显得尤为重要。</p>
-                    <div class="read-more">
-                        <a href="/2019/06/27/前端安全/" class="read-more-link">
-                            阅读全文
-                            <i class="iconfont icon-readmore"></i>
-                        </a>
-                    </div>
-                
-            </div>
-        </article>
-    
-        <article class="post-abstract">
-            <div class="post-title">
-                <h2><a class="post-title-link" href="/2019/06/21/Linux入门/">Linux 入门</a></h2>
-            </div>
-            <div class="post-meta">
-                <span class="post-time">2019-06-21</span>
-                
-                <span class="post-category">
-                    
-                    <a class="category" href="/categories/Linux/">Linux</a>
-                    
-                </span>
-                
-            </div>
-            <div class="post-content">
-                
-                    <p>作为一个前端，虽然平时工作中对Linux的要求并不多，但学习Linux可以提升自己知识的广度。在互联网的“寒冬”中，给自己添加一份保命的技能。同时Linux也是进入大厂面试必备的一项技能，对前端工作者来说很有好处。</p>
-                    <div class="read-more">
-                        <a href="/2019/06/21/Linux入门/" class="read-more-link">
-                            阅读全文
-                            <i class="iconfont icon-readmore"></i>
-                        </a>
-                    </div>
-                
-            </div>
-        </article>
-    
+        </div>
+        
+    </article>
 </div>
 <div class="paginator">
     
         
         
+            <a class="next" href="/2019/07/03/手写一个Promise/">
+                <span class="nav-default">手动实现一个Promise</span>
+                <span class="nav-mobile">下一篇</span>
+                <i class="iconfont icon-next"></i>
+            </a>
+        
     
 </div>
-
+<div id="comment-container"></div>
     </div>
 </div>
 <footer class="footer-social">
