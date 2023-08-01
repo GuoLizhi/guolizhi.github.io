@@ -6,14 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="https://guolizhi.github.io">
-  <title>Archives: 2023 | 开发笔记本</title>
+  <title>Redis基础 | 开发笔记本</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="开发笔记本">
-<meta property="og:url" content="https://guolizhi.github.io/archives/2023/index.html">
+  <meta name="description" content="通用命令 12345678keys *      # 获取所有的key, pattern类似于正则表达式，O(n)dbsize      # 获取key的总数，时间复杂度是O(1)exists key  # 检查key是否存在，存在返回1，不存在返回0，时间复杂度是O(1)del key     # 删除指定的key-value，成功删除就返回1，失败就返回0，时间复杂度是O(1)expire k">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redis基础">
+<meta property="og:url" content="https://guolizhi.github.io/2023/08/01/Redis%E5%9F%BA%E7%A1%80/index.html">
 <meta property="og:site_name" content="开发笔记本">
+<meta property="og:description" content="通用命令 12345678keys *      # 获取所有的key, pattern类似于正则表达式，O(n)dbsize      # 获取key的总数，时间复杂度是O(1)exists key  # 检查key是否存在，存在返回1，不存在返回0，时间复杂度是O(1)del key     # 删除指定的key-value，成功删除就返回1，失败就返回0，时间复杂度是O(1)expire k">
 <meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-08-01T05:43:15.819Z">
+<meta property="article:modified_time" content="2023-08-01T05:43:41.020Z">
 <meta property="article:author" content="GuoLizhi">
+<meta property="article:tag" content="数据库">
+<meta property="article:tag" content="Redis">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternative" href="/atom.xml" title="开发笔记本" type="application/atom+xml">
@@ -138,36 +144,82 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-Redis基础" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2023" class="archive-year">2023</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2023/08/01/Redis%E5%9F%BA%E7%A1%80/" class="archive-article-date">
-  	<time datetime="2023-08-01T05:43:15.819Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-08-01</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2023/08/01/Redis%E5%9F%BA%E7%A1%80/">Redis基础</a>
+    <h1 class="article-title" itemprop="name">
+      Redis基础
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2023/08/01/Redis%E5%9F%BA%E7%A1%80/" class="archive-article-date">
+  	<time datetime="2023-08-01T05:43:15.819Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-08-01</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>通用命令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">keys *      <span class="comment"># 获取所有的key, pattern类似于正则表达式，O(n)</span></span><br><span class="line">dbsize      <span class="comment"># 获取key的总数，时间复杂度是O(1)</span></span><br><span class="line">exists key  <span class="comment"># 检查key是否存在，存在返回1，不存在返回0，时间复杂度是O(1)</span></span><br><span class="line">del key     <span class="comment"># 删除指定的key-value，成功删除就返回1，失败就返回0，时间复杂度是O(1)</span></span><br><span class="line">expire key seconds <span class="comment"># 给key设置seconds秒的过期时间，时间复杂度是O(1)</span></span><br><span class="line">ttl key <span class="comment"># 查看key剩余的过期时间，-1表示key没有过期时间，时间复杂度是O(1)</span></span><br><span class="line">persist key <span class="comment"># 去掉key的过期时间，时间复杂度是O(1)</span></span><br><span class="line"><span class="built_in">type</span> key <span class="comment"># 返回key的类型 string/set/hash/list/zset/none，时间复杂度是O(1)</span></span><br></pre></td></tr></table></figure>
+
+<p>keys 不要在生产环境中随便使用，因为会扫描所有的key</p>
+<p>redis是单线程的。单线程为什么这么快呢？</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1. 纯内存</span><br><span class="line">2. 非阻塞IO</span><br><span class="line">3. 避免线程切换和竞态消耗</span><br></pre></td></tr></table></figure>
+
+<p>单线程的特点</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1. 一次只运行一条命令</span><br><span class="line">2. 拒绝长(慢)命令</span><br></pre></td></tr></table></figure>
+
+<p>字符串使用场景</p>
+<ol>
+<li>缓存</li>
+<li>计数器</li>
+<li>分布式锁</li>
+</ol>
+<p>字符串的命令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">get key <span class="comment"># 获取key对应的value</span></span><br><span class="line"><span class="built_in">set</span> key value <span class="comment"># 设置</span></span><br><span class="line">del key <span class="comment"># 删除key</span></span><br><span class="line">incr key <span class="comment"># key自增1，如果key不存在，自增后get(key)=1</span></span><br><span class="line">decr key <span class="comment"># key自减1，如果key不存在，自减后get(key)=-1</span></span><br><span class="line">incrby key k <span class="comment"># key自增k，如果key不存在，自增后get(key)=k</span></span><br><span class="line">decrby key k <span class="comment"># key自减k，如果key不存在，自减后get(key)=-k</span></span><br></pre></td></tr></table></figure>
+
+<p>字符串set命令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">set</span> key value <span class="comment"># 不管key是否存在，都设置</span></span><br><span class="line">setnx key value <span class="comment"># key不存在的时候，才设置</span></span><br><span class="line">setxx key value xx <span class="comment"># key存在的时候，才设置</span></span><br></pre></td></tr></table></figure>
+
+<p>批量操作</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mget key1 key2 key3... <span class="comment"># 批量获取</span></span><br></pre></td></tr></table></figure>
+
+<p>mget的请求时间&#x3D;1次网络时间+n次命令时间，总的来说要比多次使用get命令要来的快。</p>
+<p>其它的字符串命令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">getset key newvalue <span class="comment"># 设置新的value，并返回旧的value</span></span><br><span class="line">append key value <span class="comment"># 将value追加到旧的value</span></span><br><span class="line">strlen key <span class="comment"># 返回字符串的长度（注意中文，中文的长度是3）</span></span><br></pre></td></tr></table></figure>
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -183,61 +235,106 @@
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=https://guolizhi.github.io/2023/08/01/Redis%E5%9F%BA%E7%A1%80/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2023/08/01/MySQL%E5%9F%BA%E7%A1%80/" class="archive-article-date">
-  	<time datetime="2023-08-01T02:32:40.400Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-08-01</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2023/08/01/MySQL%E5%9F%BA%E7%A1%80/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">MySQL基础</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2023/08/01/MySQL%E5%9F%BA%E7%A1%80/">MySQL基础</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">数据库</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">MySQL</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
   
 
-    
+  
+
+  
 
 
           </div>
@@ -260,8 +357,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
