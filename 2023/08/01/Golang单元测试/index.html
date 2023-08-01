@@ -6,14 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="https://guolizhi.github.io">
-  <title>Archives: 2023/8 | 开发笔记本</title>
+  <title>Golang单元测试 | 开发笔记本</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="开发笔记本">
-<meta property="og:url" content="https://guolizhi.github.io/archives/2023/08/index.html">
+  <meta name="description" content="单元测试go test, 在包目录中，所有以_test.go为后缀的源码文件都会被go test运行到。我们写的_test.go为后缀的源码文件都会被go test运行到。我们写的_test.go文件不需要担心内容过多，因为go build命令不会讲这些测试文件打包到最后的可执行文件中。test文件总共有4种  Test开头的功能测试 Benchmark开头的性能测试 example 模糊测试">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Golang单元测试">
+<meta property="og:url" content="https://guolizhi.github.io/2023/08/01/Golang%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/index.html">
 <meta property="og:site_name" content="开发笔记本">
+<meta property="og:description" content="单元测试go test, 在包目录中，所有以_test.go为后缀的源码文件都会被go test运行到。我们写的_test.go为后缀的源码文件都会被go test运行到。我们写的_test.go文件不需要担心内容过多，因为go build命令不会讲这些测试文件打包到最后的可执行文件中。test文件总共有4种  Test开头的功能测试 Benchmark开头的性能测试 example 模糊测试">
 <meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-08-01T06:00:32.000Z">
+<meta property="article:modified_time" content="2023-08-01T06:02:23.199Z">
 <meta property="article:author" content="GuoLizhi">
+<meta property="article:tag" content="Go">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternative" href="/atom.xml" title="开发笔记本" type="application/atom+xml">
@@ -138,74 +143,69 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-Golang单元测试" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2023" class="archive-year">2023</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2023/08/01/Golang%E5%8D%8F%E7%A8%8B/" class="archive-article-date">
-  	<time datetime="2023-08-01T06:00:41.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-08-01</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2023/08/01/Golang%E5%8D%8F%E7%A8%8B/">Golang协程</a>
+    <h1 class="article-title" itemprop="name">
+      Golang单元测试
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Go</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2023/08/01/Golang%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/" class="archive-article-date">
+        
+        <a href="/2023/08/01/Golang%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/" class="archive-article-date">
   	<time datetime="2023-08-01T06:00:32.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-08-01</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2023/08/01/Golang%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/">Golang单元测试</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>单元测试go test, 在包目录中，所有以_test.go为后缀的源码文件都会被go test运行到。我们写的_test.go为后缀的源码文件都会被go test运行到。<br>我们写的_test.go文件不需要担心内容过多，因为go build命令不会讲这些测试文件打包到最后的可执行文件中。<br>test文件总共有4种</p>
+<ol>
+<li>Test开头的功能测试</li>
+<li>Benchmark开头的性能测试</li>
+<li>example</li>
+<li>模糊测试</li>
+</ol>
+<p>一个极简的单元测试</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// add.go</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">add</span><span class="params">(a, b <span class="type">int</span>)</span></span> <span class="type">int</span> &#123;</span><br><span class="line">	<span class="keyword">return</span> a + b</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// add_test.go</span></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;testing&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">TestAdd</span><span class="params">(t *testing.T)</span></span> &#123;</span><br><span class="line">	result := add(<span class="number">1</span>, <span class="number">2</span>)</span><br><span class="line">	<span class="keyword">if</span> result != <span class="number">3</span> &#123;</span><br><span class="line">		t.Errorf(<span class="string">&quot;failed&quot;</span>)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-        <div class="article-info info-on-right">
-          
+<p>如果有一组测试用例的方便的写法</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">TestAdd</span><span class="params">(t *testing.T)</span></span> &#123;</span><br><span class="line">	<span class="keyword">var</span> dataset = []<span class="keyword">struct</span> &#123;</span><br><span class="line">		a   <span class="type">int</span></span><br><span class="line">		b   <span class="type">int</span></span><br><span class="line">		out <span class="type">int</span></span><br><span class="line">	&#125;&#123;</span><br><span class="line">		&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125;,</span><br><span class="line">		&#123;<span class="number">8</span>, <span class="number">8</span>, <span class="number">16</span>&#125;,</span><br><span class="line">		&#123;<span class="number">-1</span>, <span class="number">-2</span>, <span class="number">-30</span>&#125;,</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span> _, val := <span class="keyword">range</span> dataset &#123;</span><br><span class="line">		<span class="keyword">if</span> result := add(val.a, val.b); result != val.out &#123;</span><br><span class="line">			t.Errorf(<span class="string">&quot;TestAdd failed&quot;</span>)</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>性能测试benchmark</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">StringAdd</span><span class="params">(str <span class="type">string</span>)</span></span> &#123;</span><br><span class="line">	<span class="keyword">var</span> result <span class="type">string</span></span><br><span class="line">	<span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="number">10000</span>; i++ &#123;</span><br><span class="line">		result = result + str</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">StringSprintf</span><span class="params">(str <span class="type">string</span>)</span></span> &#123;</span><br><span class="line">	<span class="keyword">var</span> result <span class="type">string</span></span><br><span class="line">	<span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="number">10000</span>; i++ &#123;</span><br><span class="line">		result = fmt.Sprintf(<span class="string">&quot;%s%s&quot;</span>, result, str)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">StringBuilder</span><span class="params">(str <span class="type">string</span>)</span></span> &#123;</span><br><span class="line">	<span class="keyword">var</span> result strings.Builder</span><br><span class="line">	<span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="number">10000</span>; i++ &#123;</span><br><span class="line">		result.WriteString(str)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">BenchmarkStringAdd</span></span><br><span class="line"><span class="comment">BenchmarkStringAdd-12        	      66	  16840193 ns/op</span></span><br><span class="line"><span class="comment">BenchmarkStringBuilder</span></span><br><span class="line"><span class="comment">BenchmarkStringBuilder-12    	   35072	     35107 ns/op</span></span><br><span class="line"><span class="comment">BenchmarkStringSprintf</span></span><br><span class="line"><span class="comment">BenchmarkStringSprintf-12    	      54	  20650894 ns/op</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">BenchmarkStringAdd</span><span class="params">(b *testing.B)</span></span> &#123;</span><br><span class="line">	b.ResetTimer()</span><br><span class="line">	<span class="keyword">for</span> i := <span class="number">0</span>; i &lt; b.N; i++ &#123;</span><br><span class="line">		StringAdd(<span class="string">&quot;hello&quot;</span>)</span><br><span class="line">	&#125;</span><br><span class="line">	b.StopTimer()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">BenchmarkStringBuilder</span><span class="params">(b *testing.B)</span></span> &#123;</span><br><span class="line">	b.ResetTimer()</span><br><span class="line">	<span class="keyword">for</span> i := <span class="number">0</span>; i &lt; b.N; i++ &#123;</span><br><span class="line">		StringBuilder(<span class="string">&quot;hello&quot;</span>)</span><br><span class="line">	&#125;</span><br><span class="line">	b.StopTimer()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">BenchmarkStringSprintf</span><span class="params">(b *testing.B)</span></span> &#123;</span><br><span class="line">	b.ResetTimer()</span><br><span class="line">	<span class="keyword">for</span> i := <span class="number">0</span>; i &lt; b.N; i++ &#123;</span><br><span class="line">		StringSprintf(<span class="string">&quot;hello&quot;</span>)</span><br><span class="line">	&#125;</span><br><span class="line">	b.StopTimer()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -217,331 +217,115 @@
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=https://guolizhi.github.io/2023/08/01/Golang%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2023/08/01/Golang%E5%8C%85/" class="archive-article-date">
-  	<time datetime="2023-08-01T06:00:27.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-08-01</time>
-</a>
+<nav id="article-nav">
+  
+    <a href="/2023/08/01/Golang%E5%8D%8F%E7%A8%8B/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          Golang协程
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2023/08/01/Golang%E5%8C%85/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Golang包</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2023/08/01/Golang%E5%8C%85/">Golang包</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Go</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2023/08/01/Golang%E6%8E%A5%E5%8F%A3/" class="archive-article-date">
-  	<time datetime="2023-08-01T06:00:18.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-08-01</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2023/08/01/Golang%E6%8E%A5%E5%8F%A3/">Golang接口</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Go</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2023/08/01/Golang%E6%8C%87%E9%92%88/" class="archive-article-date">
-  	<time datetime="2023-08-01T06:00:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-08-01</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2023/08/01/Golang%E6%8C%87%E9%92%88/">Golang指针</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Go</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2023/08/01/Golang%E7%BB%93%E6%9E%84%E4%BD%93/" class="archive-article-date">
-  	<time datetime="2023-08-01T05:59:51.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-08-01</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2023/08/01/Golang%E7%BB%93%E6%9E%84%E4%BD%93/">Golang结构体</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Go</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2023/08/01/Golang%E5%87%BD%E6%95%B0/" class="archive-article-date">
-  	<time datetime="2023-08-01T05:59:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-08-01</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2023/08/01/Golang%E5%87%BD%E6%95%B0/">Golang函数</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Go</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2023/08/01/Golang%E6%95%B0%E7%BB%84%E5%92%8C%E5%88%87%E7%89%87/" class="archive-article-date">
-  	<time datetime="2023-08-01T05:59:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-08-01</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2023/08/01/Golang%E6%95%B0%E7%BB%84%E5%92%8C%E5%88%87%E7%89%87/">Golang数组和切片</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Go</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2023/08/01/Redis%E5%9F%BA%E7%A1%80/" class="archive-article-date">
-  	<time datetime="2023-08-01T05:43:15.819Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-08-01</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2023/08/01/Redis%E5%9F%BA%E7%A1%80/">Redis基础</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">数据库</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Redis</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2023/08/01/MySQL%E5%9F%BA%E7%A1%80/" class="archive-article-date">
-  	<time datetime="2023-08-01T02:32:40.400Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-08-01</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2023/08/01/MySQL%E5%9F%BA%E7%A1%80/">MySQL基础</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">数据库</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">MySQL</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
 
 
           </div>
@@ -564,8 +348,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,

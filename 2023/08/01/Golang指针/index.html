@@ -6,14 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="https://guolizhi.github.io">
-  <title>Archives: 2023/8 | 开发笔记本</title>
+  <title>Golang指针 | 开发笔记本</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="开发笔记本">
-<meta property="og:url" content="https://guolizhi.github.io/archives/2023/08/index.html">
+  <meta name="description" content="如何初始化一个指针变量 12345func main() &amp;#123;	&#x2F;&#x2F; 初始化一个int类型的指针，可以对已经声明过的变量取地址	a :&#x3D; 10	b :&#x3D; &amp;a&amp;#125;  指针变量在未初始化之前，默认值是nil，比如结构体的指针在未初始化时，是不可使用的，这是一个非常常见的错误 1234func main() &amp;#123;	var p *Person	fmt.Println(p.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Golang指针">
+<meta property="og:url" content="https://guolizhi.github.io/2023/08/01/Golang%E6%8C%87%E9%92%88/index.html">
 <meta property="og:site_name" content="开发笔记本">
+<meta property="og:description" content="如何初始化一个指针变量 12345func main() &amp;#123;	&#x2F;&#x2F; 初始化一个int类型的指针，可以对已经声明过的变量取地址	a :&#x3D; 10	b :&#x3D; &amp;a&amp;#125;  指针变量在未初始化之前，默认值是nil，比如结构体的指针在未初始化时，是不可使用的，这是一个非常常见的错误 1234func main() &amp;#123;	var p *Person	fmt.Println(p.">
 <meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-08-01T06:00:08.000Z">
+<meta property="article:modified_time" content="2023-08-01T06:02:02.348Z">
 <meta property="article:author" content="GuoLizhi">
+<meta property="article:tag" content="Go">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternative" href="/atom.xml" title="开发笔记本" type="application/atom+xml">
@@ -138,188 +143,74 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-Golang指针" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2023" class="archive-year">2023</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2023/08/01/Golang%E5%8D%8F%E7%A8%8B/" class="archive-article-date">
-  	<time datetime="2023-08-01T06:00:41.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-08-01</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2023/08/01/Golang%E5%8D%8F%E7%A8%8B/">Golang协程</a>
+    <h1 class="article-title" itemprop="name">
+      Golang指针
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Go</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2023/08/01/Golang%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/" class="archive-article-date">
-  	<time datetime="2023-08-01T06:00:32.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-08-01</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2023/08/01/Golang%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/">Golang单元测试</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Go</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2023/08/01/Golang%E5%8C%85/" class="archive-article-date">
-  	<time datetime="2023-08-01T06:00:27.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-08-01</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2023/08/01/Golang%E5%8C%85/">Golang包</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Go</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2023/08/01/Golang%E6%8E%A5%E5%8F%A3/" class="archive-article-date">
-  	<time datetime="2023-08-01T06:00:18.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-08-01</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2023/08/01/Golang%E6%8E%A5%E5%8F%A3/">Golang接口</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Go</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2023/08/01/Golang%E6%8C%87%E9%92%88/" class="archive-article-date">
+        
+        <a href="/2023/08/01/Golang%E6%8C%87%E9%92%88/" class="archive-article-date">
   	<time datetime="2023-08-01T06:00:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-08-01</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2023/08/01/Golang%E6%8C%87%E9%92%88/">Golang指针</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>如何初始化一个指针变量</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="comment">// 初始化一个int类型的指针，可以对已经声明过的变量取地址</span></span><br><span class="line">	a := <span class="number">10</span></span><br><span class="line">	b := &amp;a</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-        <div class="article-info info-on-right">
-          
+<p>指针变量在未初始化之前，默认值是nil，比如结构体的指针在未初始化时，是不可使用的，这是一个非常常见的错误</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">var</span> p *Person</span><br><span class="line">	fmt.Println(p.name) <span class="comment">//panic: runtime error: invalid memory address or nil pointer dereference</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>初始化指针的三种方式</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	p1 := &amp;Person&#123;&#125;</span><br><span class="line">	<span class="keyword">var</span> p Person</span><br><span class="line">	p2 := &amp;p</span><br><span class="line">	p3 := <span class="built_in">new</span>(Person)</span><br><span class="line">	fmt.Println(p1, p2, p3)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>一个容易引起人误解的swap函数</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">swap</span><span class="params">(a, b *<span class="type">int</span>)</span></span> &#123;</span><br><span class="line">	a, b = b, a</span><br><span class="line">	<span class="comment">// swap内部会发生地址的交换 但这个交换也仅限于函数体的内部，他不会对外部实际的a,b造成影响</span></span><br><span class="line">	fmt.Printf(<span class="string">&quot;swap a:%p,b:%p\n&quot;</span>, &amp;a, &amp;b) <span class="comment">// a:0x140000a6020,b:0x140000a6028</span></span><br><span class="line">	fmt.Println(<span class="string">&quot;swap&quot;</span>, *a, *b)            <span class="comment">// 2, 1</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	a, b := <span class="number">1</span>, <span class="number">2</span></span><br><span class="line">	fmt.Printf(<span class="string">&quot;a:%p,b:%p\n&quot;</span>, &amp;a, &amp;b) <span class="comment">// a:0x1400001a0a8,b:0x1400001a0b0</span></span><br><span class="line">	<span class="comment">// swap函数的参数是值传递，会copy一份a,b的地址，因此不会实际上改动到main函数中a,b的值</span></span><br><span class="line">	swap(&amp;a, &amp;b)</span><br><span class="line">	fmt.Printf(<span class="string">&quot;a:%p,b:%p\n&quot;</span>, &amp;a, &amp;b) <span class="comment">// a:0x1400001a0a8,b:0x1400001a0b0</span></span><br><span class="line">	fmt.Println(a, b)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>正确的swap函数，应该是直接修改指针所指向的值</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 直接修改指针所指向的值</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">swap</span><span class="params">(a, b *<span class="type">int</span>)</span></span> &#123;</span><br><span class="line">	t := *a</span><br><span class="line">	*a = *b</span><br><span class="line">	*b = t</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	a, b := <span class="number">1</span>, <span class="number">2</span></span><br><span class="line">	fmt.Printf(<span class="string">&quot;a:%p,b:%p\n&quot;</span>, &amp;a, &amp;b) <span class="comment">// a:0x1400001a0a8,b:0x1400001a0b0</span></span><br><span class="line">	swap(&amp;a, &amp;b)</span><br><span class="line">	fmt.Printf(<span class="string">&quot;a:%p,b:%p\n&quot;</span>, &amp;a, &amp;b) <span class="comment">// a:0x1400001a0a8,b:0x1400001a0b0</span></span><br><span class="line">	fmt.Println(a, b)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>nil slice和empty slice的区别</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">var</span> s []<span class="type">int</span></span><br><span class="line">	fmt.Println(s == <span class="literal">nil</span>) <span class="comment">// true</span></span><br><span class="line">	s1 := <span class="built_in">make</span>([]<span class="type">int</span>, <span class="number">0</span>)</span><br><span class="line">	fmt.Println(s1 == <span class="literal">nil</span>) <span class="comment">// false</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>nil map和empty map的区别</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">var</span> m <span class="keyword">map</span>[<span class="type">string</span>]<span class="type">int</span></span><br><span class="line">	fmt.Println(m == <span class="literal">nil</span>) <span class="comment">// true</span></span><br><span class="line">	m1 := <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="type">string</span>]<span class="type">int</span>, <span class="number">0</span>)</span><br><span class="line">	fmt.Println(m1 == <span class="literal">nil</span>) <span class="comment">// false</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -331,217 +222,115 @@
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=https://guolizhi.github.io/2023/08/01/Golang%E6%8C%87%E9%92%88/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2023/08/01/Golang%E7%BB%93%E6%9E%84%E4%BD%93/" class="archive-article-date">
-  	<time datetime="2023-08-01T05:59:51.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-08-01</time>
-</a>
+<nav id="article-nav">
+  
+    <a href="/2023/08/01/Golang%E6%8E%A5%E5%8F%A3/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          Golang接口
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2023/08/01/Golang%E7%BB%93%E6%9E%84%E4%BD%93/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Golang结构体</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2023/08/01/Golang%E7%BB%93%E6%9E%84%E4%BD%93/">Golang结构体</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Go</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2023/08/01/Golang%E5%87%BD%E6%95%B0/" class="archive-article-date">
-  	<time datetime="2023-08-01T05:59:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-08-01</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2023/08/01/Golang%E5%87%BD%E6%95%B0/">Golang函数</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Go</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2023/08/01/Golang%E6%95%B0%E7%BB%84%E5%92%8C%E5%88%87%E7%89%87/" class="archive-article-date">
-  	<time datetime="2023-08-01T05:59:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-08-01</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2023/08/01/Golang%E6%95%B0%E7%BB%84%E5%92%8C%E5%88%87%E7%89%87/">Golang数组和切片</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Go</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2023/08/01/Redis%E5%9F%BA%E7%A1%80/" class="archive-article-date">
-  	<time datetime="2023-08-01T05:43:15.819Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-08-01</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2023/08/01/Redis%E5%9F%BA%E7%A1%80/">Redis基础</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">数据库</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Redis</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2023/08/01/MySQL%E5%9F%BA%E7%A1%80/" class="archive-article-date">
-  	<time datetime="2023-08-01T02:32:40.400Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-08-01</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2023/08/01/MySQL%E5%9F%BA%E7%A1%80/">MySQL基础</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">数据库</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">MySQL</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
 
 
           </div>
@@ -564,8 +353,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
