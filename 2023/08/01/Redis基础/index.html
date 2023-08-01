@@ -16,7 +16,7 @@
 <meta property="og:description" content="通用命令 12345678keys *      # 获取所有的key, pattern类似于正则表达式，O(n)dbsize      # 获取key的总数，时间复杂度是O(1)exists key  # 检查key是否存在，存在返回1，不存在返回0，时间复杂度是O(1)del key     # 删除指定的key-value，成功删除就返回1，失败就返回0，时间复杂度是O(1)expire k">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2023-08-01T05:43:15.819Z">
-<meta property="article:modified_time" content="2023-08-01T05:43:41.020Z">
+<meta property="article:modified_time" content="2023-08-01T06:23:44.500Z">
 <meta property="article:author" content="GuoLizhi">
 <meta property="article:tag" content="数据库">
 <meta property="article:tag" content="Redis">
@@ -71,8 +71,6 @@
     			<a q-on="click: openSlider(e, 'innerArchive')" href="javascript:void(0)">所有文章</a>
     			
             
-    			
-    			<a q-on="click: openSlider(e, 'friends')" href="javascript:void(0)">友链</a>
     			
             
     			
@@ -166,7 +164,7 @@
       
         <p>通用命令</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">keys *      <span class="comment"># 获取所有的key, pattern类似于正则表达式，O(n)</span></span><br><span class="line">dbsize      <span class="comment"># 获取key的总数，时间复杂度是O(1)</span></span><br><span class="line">exists key  <span class="comment"># 检查key是否存在，存在返回1，不存在返回0，时间复杂度是O(1)</span></span><br><span class="line">del key     <span class="comment"># 删除指定的key-value，成功删除就返回1，失败就返回0，时间复杂度是O(1)</span></span><br><span class="line">expire key seconds <span class="comment"># 给key设置seconds秒的过期时间，时间复杂度是O(1)</span></span><br><span class="line">ttl key <span class="comment"># 查看key剩余的过期时间，-1表示key没有过期时间，时间复杂度是O(1)</span></span><br><span class="line">persist key <span class="comment"># 去掉key的过期时间，时间复杂度是O(1)</span></span><br><span class="line"><span class="built_in">type</span> key <span class="comment"># 返回key的类型 string/set/hash/list/zset/none，时间复杂度是O(1)</span></span><br></pre></td></tr></table></figure>
-
+<span id="more"></span>
 <p>keys 不要在生产环境中随便使用，因为会扫描所有的key</p>
 <p>redis是单线程的。单线程为什么这么快呢？</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1. 纯内存</span><br><span class="line">2. 非阻塞IO</span><br><span class="line">3. 避免线程切换和竞态消耗</span><br></pre></td></tr></table></figure>
@@ -194,27 +192,6 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">getset key newvalue <span class="comment"># 设置新的value，并返回旧的value</span></span><br><span class="line">append key value <span class="comment"># 将value追加到旧的value</span></span><br><span class="line">strlen key <span class="comment"># 返回字符串的长度（注意中文，中文的长度是3）</span></span><br></pre></td></tr></table></figure>
       
 
-      
-        <div class="page-reward">
-          <a href="javascript:;" class="page-reward-btn tooltip-top">
-            <div class="tooltip tooltip-east">
-            <span class="tooltip-item">
-              赏
-            </span>
-            <span class="tooltip-content">
-              <span class="tooltip-text">
-                <span class="tooltip-inner">
-                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
-                  <div class="reward-box">
-                    
-                    
-                  </div>
-                </span>
-              </span>
-            </span>
-          </div>
-          </a>
-        </div>
       
     </div>
     <div class="article-info article-info-index">
@@ -374,7 +351,7 @@
 		toc_hide_index: true,
 		root: "/",
 		innerArchive: true,
-		showTags: false
+		showTags: true
 	}
 </script>
 
@@ -394,8 +371,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
       
     
       
-      
-      
     
       
       
@@ -407,15 +382,13 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
     
     
       
-      <li style="width: 33.333333333333336%" q-on="click: openSlider(e, 'innerArchive')"><a href="javascript:void(0)" q-class="active:innerArchive">所有文章</a></li>
+      <li style="width: 50%" q-on="click: openSlider(e, 'innerArchive')"><a href="javascript:void(0)" q-class="active:innerArchive">所有文章</a></li>
       
         
       
-      <li style="width: 33.333333333333336%" q-on="click: openSlider(e, 'friends')"><a href="javascript:void(0)" q-class="active:friends">友链</a></li>
-      
         
       
-      <li style="width: 33.333333333333336%" q-on="click: openSlider(e, 'aboutme')"><a href="javascript:void(0)" q-class="active:aboutme">关于我</a></li>
+      <li style="width: 50%" q-on="click: openSlider(e, 'aboutme')"><a href="javascript:void(0)" q-class="active:aboutme">关于我</a></li>
       
         
     </ul>
@@ -495,43 +468,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
     
 
     
-    	<section class="tools-section tools-section-friends" q-show="friends">
-  		
-        <ul class="search-ul">
-          
-            <li class="search-li">
-              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接1</a>
-            </li>
-          
-            <li class="search-li">
-              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接2</a>
-            </li>
-          
-            <li class="search-li">
-              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接3</a>
-            </li>
-          
-            <li class="search-li">
-              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接4</a>
-            </li>
-          
-            <li class="search-li">
-              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接5</a>
-            </li>
-          
-            <li class="search-li">
-              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接6</a>
-            </li>
-          
-        </ul>
-  		
-    	</section>
-    
 
     
     	<section class="tools-section tools-section-me" q-show="aboutme">
   	  	
-  	  		<div class="aboutme-wrap" id="js-aboutme">很惭愧&lt;br&gt;&lt;br&gt;只做了一点微小的工作&lt;br&gt;谢谢大家</div>
+  	  		<div class="aboutme-wrap" id="js-aboutme">专注于Web3开发, 区块链, 前后端</div>
   	  	
     	</section>
     
