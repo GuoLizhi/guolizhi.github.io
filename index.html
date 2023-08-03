@@ -871,6 +871,7 @@
       
         <p>访问控制(DCL Data Control Language)</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1. 建立数据库账号: create user</span><br><span class="line">2. 对用户授权: grant</span><br><span class="line">3. 收回用户权限: revoke</span><br></pre></td></tr></table></figure>
+
 <p>创建一个用户</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 创建一个用户最多只能支持1个连接</span></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">user</span> mc_test@<span class="string">&#x27;192.168.1.%&#x27;</span> identified <span class="keyword">by</span> <span class="string">&#x27;123456&#x27;</span> <span class="keyword">with</span> max_user_connections <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
         
