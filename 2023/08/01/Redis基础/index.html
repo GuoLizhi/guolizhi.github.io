@@ -15,12 +15,15 @@
 <meta property="og:site_name" content="开发笔记本">
 <meta property="og:description" content="通用命令 12345678keys *      # 获取所有的key, pattern类似于正则表达式，O(n)dbsize      # 获取key的总数，时间复杂度是O(1)exists key  # 检查key是否存在，存在返回1，不存在返回0，时间复杂度是O(1)del key     # 删除指定的key-value，成功删除就返回1，失败就返回0，时间复杂度是O(1)expire k">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://raw.githubusercontent.com/GuoLizhi/images/main/20230809112344.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/GuoLizhi/images/main/20230809132533.png">
 <meta property="article:published_time" content="2023-08-01T05:43:15.819Z">
-<meta property="article:modified_time" content="2023-08-01T06:23:44.500Z">
+<meta property="article:modified_time" content="2023-08-09T05:28:30.492Z">
 <meta property="article:author" content="GuoLizhi">
 <meta property="article:tag" content="数据库">
 <meta property="article:tag" content="Redis">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/GuoLizhi/images/main/20230809112344.png">
   
     <link rel="alternative" href="/atom.xml" title="开发笔记本" type="application/atom+xml">
   
@@ -190,6 +193,30 @@
 <p>mget的请求时间&#x3D;1次网络时间+n次命令时间，总的来说要比多次使用get命令要来的快。</p>
 <p>其它的字符串命令</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">getset key newvalue <span class="comment"># 设置新的value，并返回旧的value</span></span><br><span class="line">append key value <span class="comment"># 将value追加到旧的value</span></span><br><span class="line">strlen key <span class="comment"># 返回字符串的长度（注意中文，中文的长度是3）</span></span><br></pre></td></tr></table></figure>
+
+<p>哈希键值结构</p>
+<p><img src="https://raw.githubusercontent.com/GuoLizhi/images/main/20230809112344.png"></p>
+<p>相关命令</p>
+<ol>
+<li>hget key field 获取hashkey中field对应的value</li>
+<li>hset key field value 设置hashkey中field对应的value</li>
+<li>hdel key field 删除hashkey中的field</li>
+<li>hexists key field 判断hash key中field是否存在</li>
+<li>hlen key 获取hash中key中field的个数</li>
+<li>hmget key field1 field2… 同时获取多个field</li>
+<li>hmset key field1 value1 field2 value2 field3 value3… 同时设置多个filed的值</li>
+<li>hgetall key 获取key所有的fields和values</li>
+<li>hvals key 获取Key所有的values</li>
+<li>hkeys key 获取key所有的fields</li>
+<li>hsetnx key field value 如果field已经存在，则忽略</li>
+<li>hincrby key field increCnt</li>
+<li>hincrfloat key field floatCnt</li>
+</ol>
+<blockquote>
+<p>小心使用hgetall，因为它会返回所有的fields和values</p>
+</blockquote>
+<h3 id="string-vs-hash"><a href="#string-vs-hash" class="headerlink" title="string vs hash"></a>string vs hash</h3><p><img src="https://raw.githubusercontent.com/GuoLizhi/images/main/20230809132533.png"></p>
+
       
 
       
