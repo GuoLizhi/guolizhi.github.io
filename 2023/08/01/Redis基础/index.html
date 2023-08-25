@@ -18,7 +18,7 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/GuoLizhi/images/main/20230809112344.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/GuoLizhi/images/main/20230809132533.png">
 <meta property="article:published_time" content="2023-08-01T05:43:15.819Z">
-<meta property="article:modified_time" content="2023-08-10T00:35:21.914Z">
+<meta property="article:modified_time" content="2023-08-13T13:34:19.504Z">
 <meta property="article:author" content="GuoLizhi">
 <meta property="article:tag" content="数据库">
 <meta property="article:tag" content="Redis">
@@ -256,6 +256,54 @@
 <li>sdiff key1 key2 算出两个集合的差集</li>
 <li>sinter key1 key2 算出两个集合的交集</li>
 <li>sunion key1 key2 算出两个集合的并集</li>
+</ol>
+<h3 id="zset"><a href="#zset" class="headerlink" title="zset"></a>zset</h3><p>有序集合的特点</p>
+<ol>
+<li>无重复元素</li>
+<li>有序</li>
+<li>element + score</li>
+</ol>
+<p>相关API</p>
+<ol>
+<li>zadd key score element 向集合key里面添加score和element(score和element可以是多对)</li>
+<li>zrem key element 删除集合key中的element(element可以是多个)</li>
+<li>zscore key element 返回集合key中element的分数</li>
+<li>zincrby key incrScore element 给集合key中的element增加incrScore分</li>
+<li>zcard key 返回集合中元素的个数</li>
+<li>zrank key element 返回集合key中element的排名</li>
+<li>zrange key start end [withscore] 返回从排名为start到end的元素(升序)</li>
+<li>zcount key minScore maxScore 获取从minScore到maxScore区间内所有元素的个数</li>
+</ol>
+<p>有序集合通常用于网站中的各种榜单</p>
+<h3 id="慢查询"><a href="#慢查询" class="headerlink" title="慢查询"></a>慢查询</h3><p>Redis执行命令的生命周期</p>
+<ol>
+<li>客户端发送命令</li>
+<li>命令排队等待执行</li>
+<li>执行命令</li>
+<li>返回结果</li>
+</ol>
+<p>其中慢查询发生在第3个阶段，慢查询的两个配置项</p>
+<ol>
+<li>slowlog-max-len 它是一个先进先出的队列(固定长度)，并且保存在内存中，默认值128</li>
+<li>slowlog-log-slower-than 慢查询的阈值(单位: 微秒)，当这个配置设置为0时，会记录所有的命令，当这个配置设置小于0时，所有的命令都不会记录，默认值10000微秒</li>
+</ol>
+<p>有关慢查询的几个命令</p>
+<ol>
+<li>slowlog get [n] : 获取慢查询队列</li>
+<li>slowlog len: 获取慢查询队列长度</li>
+<li>slowlog reset: 清空慢查询队列</li>
+</ol>
+<p>有关慢查询的运维经验</p>
+<ol>
+<li>slowlog-max-len不要设置过大，默认10ms 通常设置1ms</li>
+<li>slowlog-log-slower-than不要设置过小，通常设置1000左右。</li>
+<li>理解命令生命周期</li>
+<li>定期持久化慢查询</li>
+</ol>
+<p>动态配置</p>
+<ol>
+<li>config set slowlog-max-len 1000</li>
+<li>config set slowlog-log-slower-than 1000</li>
 </ol>
 
       

@@ -15,14 +15,12 @@
 <meta property="og:site_name" content="开发笔记本">
 <meta property="og:description" content="什么是事务?  事务是数据库执行操作的最小逻辑单元 事务可以由一个SQL组成也可以由多个SQL组成 组成事务的SQL要么全执行成功要么全执行失败">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://raw.githubusercontent.com/GuoLizhi/images/main/20230808084050.png">
 <meta property="article:published_time" content="2023-08-08T00:14:12.000Z">
-<meta property="article:modified_time" content="2023-08-08T00:43:01.951Z">
+<meta property="article:modified_time" content="2023-08-23T12:30:30.109Z">
 <meta property="article:author" content="GuoLizhi">
 <meta property="article:tag" content="数据库">
 <meta property="article:tag" content="MySQL">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/GuoLizhi/images/main/20230808084050.png">
   
     <link rel="alternative" href="/atom.xml" title="开发笔记本" type="application/atom+xml">
   
@@ -172,20 +170,32 @@
 </ol>
 <span id="more"></span>
 
-<p>事务的ACID特性</p>
-<ol>
-<li>原子性（Atomicity）：事务是一个原子操作单元，它要么完全执行成功，要么完全回滚到最初状态，没有中间状态。如果事务中的任何操作失败，整个事务将被回滚，所有修改将被撤销，数据库将保持不变。</li>
-<li>一致性（Consistency）：事务在执行之前和执行之后，数据库必须保持一致的状态。这意味着事务的执行不会破坏数据库的完整性约束，如唯一性约束、外键约束等。如果事务违反了一致性规则，它将被回滚。</li>
-<li>隔离性（Isolation）：事务的执行应该与其他并发事务相互隔离，以防止数据争用和不一致的结果。每个事务应该感觉就像是在独立运行的数据库中执行一样，即使有多个事务同时执行，它们之间也不应该相互干扰。</li>
-<li>持久性（Durability）：一旦事务成功提交，其结果应该持久保存在数据库中，并且对于后续的故障或系统重启是可靠的。即使在系统故障或断电的情况下，已提交的事务的结果也应该能够恢复</li>
+<h3 id="事务的ACID特性"><a href="#事务的ACID特性" class="headerlink" title="事务的ACID特性"></a>事务的ACID特性</h3><ol>
+<li>原子性(Atomicity): 当前事务的控作要么同时成功，要么同时失败。原子性由undo log日志来保证。比如我们在下单时，一般会涉及到2个操作，一是创建订单，一个是减掉库存。如果我们创建订单成功，但是减掉库存失败，这时我们就需要把之前创建的订单回滚掉(这个回滚操作就是通过undo日志来实现的)。</li>
+<li>一致性(Consistency): 使用事务白最终目的，由业务代码正确逻辑保证</li>
+<li>隔离性(Isolation): 在事务并发执行时，他们内部的操作不能互相干扰</li>
+<li>持久性(Durability): 一旦提交了务，它对数据库的改变就应该是永久性的持久性由redo log日志来保证</li>
 </ol>
-<p>并发带来的问题</p>
+<h3 id="事务的隔离性"><a href="#事务的隔离性" class="headerlink" title="事务的隔离性"></a>事务的隔离性</h3><p>InnoDB引擎中，定义了四种隔离级别供我们使用，级别越高事务隔离性越好，但性能就越低，而隔离性是由MySQL的各中锁以及MVCC机制来实现的</p>
 <ol>
-<li>脏读: 一个事务读取了另一个事务未提交的数据</li>
-<li>不可重复读: 一个事务前后两次读取的同一数据不一致</li>
-<li>幻读: 指一个事务两次查询到的结果集记录数不一致</li>
+<li>read uncommit(读未提交): 有脏读问题，也就是可以读取到别的事务还没commit的数据</li>
 </ol>
-<p>InnoDB隔离性<br><img src="https://raw.githubusercontent.com/GuoLizhi/images/main/20230808084050.png"></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 将隔离级别设置为read uncommitted</span></span><br><span class="line"><span class="keyword">SET</span> TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 开始一个事务</span></span><br><span class="line"><span class="keyword">begin</span>;</span><br><span class="line"><span class="comment">-- 将id=1的用户分数加50（初始分数为0）</span></span><br><span class="line"><span class="keyword">update</span> <span class="keyword">set</span> score <span class="operator">=</span> score <span class="operator">+</span> <span class="number">50</span> <span class="keyword">where</span> id <span class="operator">=</span> <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 此时我们的事务并没有提交</span></span><br><span class="line"><span class="comment">-- 如果我们在另外一个事务中查询此时的分数，那就是50</span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> scores <span class="keyword">where</span> id <span class="operator">=</span> <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 此时一旦上面的事务rollback</span></span><br><span class="line"><span class="keyword">rollback</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 我们再次查询分数，分数右边为0</span></span><br><span class="line"><span class="comment">-- 这就是read uncommit, 别的事务可以读取到其他事务中未被commit的改变</span></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>read commit(读已提交): 有不可重复读问题，这种隔离级别它只能独到别的事务已经提交的数据</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 设置事务的隔离级别为 READ committed</span></span><br><span class="line"><span class="keyword">SET</span> TRANSACTION ISOLATION LEVEL READ committed;</span><br><span class="line"><span class="keyword">begin</span>;</span><br><span class="line"><span class="keyword">update</span> test <span class="keyword">set</span> score <span class="operator">=</span> score <span class="operator">+</span> <span class="number">50</span> <span class="keyword">where</span> id <span class="operator">=</span> <span class="number">1</span>;</span><br><span class="line"><span class="comment">-- 此时我们在别的事务中获取id=1用户的分数，那依然是0，因为还没有commit</span></span><br><span class="line"><span class="comment">-- 一旦上面的事务commit，那我们就可以获取到该用户的分数为50</span></span><br><span class="line"><span class="keyword">commit</span>;</span><br><span class="line"><span class="comment">-- 这就是read committed, 只能读取到其他事务已经commit的数据</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 什么叫做不可重复读？比如我们有另外一个事物</span></span><br><span class="line"><span class="keyword">begin</span>;</span><br><span class="line"><span class="comment">-- 第一次读的时候，上面的事务还没有commit，那获取到的分数就是0</span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> scores <span class="keyword">where</span> id <span class="operator">=</span> <span class="number">1</span>;</span><br><span class="line"><span class="comment">-- 第二次读的时候，上面的事务已经commit，那获取到的分数就是50</span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> scores <span class="keyword">where</span> id <span class="operator">=</span> <span class="number">1</span>;</span><br><span class="line"><span class="keyword">commit</span>;</span><br><span class="line"><span class="comment">-- 这就造成了我同一个事务里面可能读取到的score值是不一致的，也叫【不可重复读】</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 为了解决上述在同一个事务中，获取到的score不一致的情况，我们可以使用 repeatable read 的隔离级别</span></span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>repeatable read(可重复读): 有幻读问题</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 设置隔离级别为repeatable read</span></span><br><span class="line"><span class="keyword">SET</span> TRANSACTION ISOLATION LEVEL repeatable read;</span><br><span class="line"><span class="comment">-- 这样设置隔离级别之后，不管我们读多少次，同一个事务内部，值都是一样的</span></span><br><span class="line"><span class="comment">-- 但这种模式同样有个问题，比如我们数据库中有很多条记录，那我们在repeatable read模式下面</span></span><br><span class="line"><span class="comment">-- 我们同样无法获取别的数据行的最新值（相当于在事务开始的时候，做了一次快照，不管如何读，每次读都是一样的数据）</span></span><br><span class="line"><span class="comment">-- 这个就叫幻读</span></span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>serializable(串行): 上面问题全部解决，让读写都串行执行，效率不佳</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 设置隔离级别为serializable</span></span><br><span class="line"><span class="keyword">SET</span> TRANSACTION ISOLATION LEVEL serializable;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 比如我们现在有一个事务(还未commit)</span></span><br><span class="line"><span class="keyword">begin</span>;</span><br><span class="line"><span class="keyword">update</span> test <span class="keyword">set</span> score <span class="operator">=</span> score <span class="operator">+</span> <span class="number">50</span> <span class="keyword">where</span> id <span class="operator">=</span> <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 以上事务还没有commit的情况下，我们再执行一个事务</span></span><br><span class="line"><span class="keyword">begin</span>;</span><br><span class="line"><span class="comment">-- 这里的select会阻塞 直到上面的事务commit</span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> scores <span class="keyword">where</span> id <span class="operator">=</span> <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
 
       
 

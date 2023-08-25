@@ -18,8 +18,13 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/GuoLizhi/images/main/20230809075936.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/GuoLizhi/images/main/20230809081109.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/GuoLizhi/images/main/20230809081900.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/GuoLizhi/images/main/20230810113031.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/GuoLizhi/images/main/20230810193535.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/GuoLizhi/images/main/20230810193648.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/GuoLizhi/images/main/20230811103605.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/GuoLizhi/images/main/20230811104508.png">
 <meta property="article:published_time" content="2023-08-04T11:21:30.190Z">
-<meta property="article:modified_time" content="2023-08-09T03:22:31.966Z">
+<meta property="article:modified_time" content="2023-08-11T02:52:47.981Z">
 <meta property="article:author" content="GuoLizhi">
 <meta property="article:tag" content="数据库">
 <meta property="article:tag" content="MySQL">
@@ -234,6 +239,33 @@
 <p><img src="https://raw.githubusercontent.com/GuoLizhi/images/main/20230809081900.png"></p>
 <ol start="3">
 <li>表中的非主键列，不能相互依赖</li>
+</ol>
+<h3 id="数据库物理表设计"><a href="#数据库物理表设计" class="headerlink" title="数据库物理表设计"></a>数据库物理表设计</h3><p>MySQL常见的存储引擎</p>
+<p><img src="https://raw.githubusercontent.com/GuoLizhi/images/main/20230810113031.png"></p>
+<p>Innodb存储引擎的特点</p>
+<ol>
+<li>事务型存储引擎支持ACID</li>
+<li>数据按主键聚集存储</li>
+<li>支持行级锁及MVCC</li>
+<li>支持Btree和自适应Hash索引04</li>
+<li>支持全文和空间索引</li>
+</ol>
+<p>整数型</p>
+<p><img src="https://raw.githubusercontent.com/GuoLizhi/images/main/20230810193535.png"></p>
+<p>浮点型</p>
+<p><img src="https://raw.githubusercontent.com/GuoLizhi/images/main/20230810193648.png"></p>
+<p>如果需要使用更精确的浮点数，那建议使用decimal</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- decimal 的第二位表示字节长度，其中小数点占1位</span></span><br><span class="line"><span class="comment">-- 每4个字节存储9位小数</span></span><br><span class="line"><span class="number">123456789.987654321</span> <span class="operator">-</span><span class="operator">&gt;</span> <span class="type">decimal</span>(<span class="number">18</span>, <span class="number">9</span>)</span><br></pre></td></tr></table></figure>
+
+<p>时间类型</p>
+<p><img src="https://raw.githubusercontent.com/GuoLizhi/images/main/20230811103605.png"></p>
+<p>字符串类型</p>
+<p><img src="https://raw.githubusercontent.com/GuoLizhi/images/main/20230811104508.png"></p>
+<p>如何为数据选择合适的数据类型</p>
+<ol>
+<li>优先选择符合存储数据需求的最小数据类型</li>
+<li>谨慎使用ENUM，TEXT字符串类型</li>
+<li>同财务相关的数值型数据，必需使用decimal类型</li>
 </ol>
 <p>访问控制(DCL Data Control Language)</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1. 建立数据库账号: create user</span><br><span class="line">2. 对用户授权: grant</span><br><span class="line">3. 收回用户权限: revoke</span><br></pre></td></tr></table></figure>
