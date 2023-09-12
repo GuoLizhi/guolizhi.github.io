@@ -138,6 +138,83 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-Golang接口" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/08/01/Golang%E6%8E%A5%E5%8F%A3/">Golang接口</a>
+    </h1>
+  
+
+        
+        <a href="/2023/08/01/Golang%E6%8E%A5%E5%8F%A3/" class="archive-article-date">
+  	<time datetime="2023-08-01T06:00:18.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-08-01</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>go语言中的“鸭子类型”</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Animal <span class="keyword">interface</span> &#123;</span><br><span class="line">	Say()</span><br><span class="line">	Walk()</span><br><span class="line">	Fly()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> Bird <span class="keyword">struct</span> &#123;</span><br><span class="line">	Name <span class="type">string</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Duck Typing</span></span><br><span class="line"><span class="comment">// bird实现了Say/Walk/Fly三个方法，那就可以认为Bird就是Animal类型</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(b *Bird)</span></span> Say() &#123;</span><br><span class="line">	fmt.Println(b.Name, <span class="string">&quot;saying...&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(b *Bird)</span></span> Fly() &#123;</span><br><span class="line">	fmt.Println(b.Name, <span class="string">&quot;flying...&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(b *Bird)</span></span> Walk() &#123;</span><br><span class="line">	fmt.Println(b.Name, <span class="string">&quot;walking...&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">var</span> b Animal = &amp;Bird&#123;<span class="string">&quot;CX&quot;</span>&#125;</span><br><span class="line">	b.Say()</span><br><span class="line">	b.Walk()</span><br><span class="line">	b.Fly()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        
+          <a class="article-more-a" href="/2023/08/01/Golang%E6%8E%A5%E5%8F%A3/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Go</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2023/08/01/Golang%E6%8E%A5%E5%8F%A3/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-Golang指针" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -474,8 +551,22 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>通用命令</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">keys *      <span class="comment"># 获取所有的key, pattern类似于正则表达式，O(n)</span></span><br><span class="line">dbsize      <span class="comment"># 获取key的总数，时间复杂度是O(1)</span></span><br><span class="line">exists key  <span class="comment"># 检查key是否存在，存在返回1，不存在返回0，时间复杂度是O(1)</span></span><br><span class="line">del key     <span class="comment"># 删除指定的key-value，成功删除就返回1，失败就返回0，时间复杂度是O(1)</span></span><br><span class="line">expire key seconds <span class="comment"># 给key设置seconds秒的过期时间，时间复杂度是O(1)</span></span><br><span class="line">ttl key <span class="comment"># 查看key剩余的过期时间，-1表示key没有过期时间，时间复杂度是O(1)</span></span><br><span class="line">persist key <span class="comment"># 去掉key的过期时间，时间复杂度是O(1)</span></span><br><span class="line"><span class="built_in">type</span> key <span class="comment"># 返回key的类型 string/set/hash/list/zset/none，时间复杂度是O(1)</span></span><br></pre></td></tr></table></figure>
+        <h2 id="1-Redis简介"><a href="#1-Redis简介" class="headerlink" title="1. Redis简介"></a>1. Redis简介</h2><p>Redis的三大作用</p>
+<ol>
+<li>缓存</li>
+<li>数据库</li>
+<li>中间件</li>
+</ol>
+<p>redis是单线程的。单线程为什么这么快呢？</p>
+<ol>
+<li>纯内存</li>
+<li>非阻塞IO</li>
+<li>避免线程切换和竞态消耗</li>
+</ol>
+<p>单线程的特点</p>
+<ol>
+<li>一次只运行一条命令</li>
+<li>拒绝长(慢)命令
         
           <a class="article-more-a" href="/2023/08/01/Redis%E5%9F%BA%E7%A1%80/#more">more >></a>
         
@@ -645,6 +736,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">Solidity</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">RabbitMQ</a>
               </li>
             
             <div class="clearfix"></div>

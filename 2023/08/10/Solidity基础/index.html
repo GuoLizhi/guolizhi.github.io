@@ -16,7 +16,7 @@
 <meta property="og:description" content="合约的基本结构  合约中的成员函数 合约中的成员变量 Event, Modifier, constructor  成员变量  概念：存储合约状态的变量 声明方法：类型[访问修饰符] 变量名 默认：internal  成员变量的可见性  三个维度: 合约外部，本合约，子合约 public 完全可见；private 仅对本合约可见；internal 对继承的子合约可见 默认值的问题  合约函数的定义">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2023-08-10T02:28:00.000Z">
-<meta property="article:modified_time" content="2023-08-10T03:01:07.086Z">
+<meta property="article:modified_time" content="2023-08-31T14:39:15.217Z">
 <meta property="article:author" content="GuoLizhi">
 <meta property="article:tag" content="Solidity">
 <meta name="twitter:card" content="summary">
@@ -192,6 +192,21 @@
 <li>view 合约状态的读操作</li>
 <li>pure 与合约状态无关的函数</li>
 <li>默认是写操作，全网广播，共识确认</li>
+</ol>
+<p>合约的基本结构</p>
+<ol>
+<li>合约中的成员变量</li>
+<li>合约中的成员函数</li>
+<li>Event, modifier, constructor</li>
+</ol>
+<p>数据类型</p>
+<ol>
+<li>值类型</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">基本数据类型: 整数 枚举 布尔</span><br><span class="line">Address contract</span><br><span class="line"></span><br><span class="line">address: 20个字节长度</span><br><span class="line">address payable: 可支付，有成员函数transfer和send</span><br><span class="line">address可以转换为uint160和bytes20</span><br><span class="line">合约账号地址与外部账号地址</span><br><span class="line">call/balance等，很大程度上address已经不是一个单纯的数据类型了</span><br><span class="line"></span><br><span class="line">Fixed byte array: 定长字节数组</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>引用类型</li>
 </ol>
 
       
@@ -426,6 +441,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">Solidity</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">RabbitMQ</a>
               </li>
             
             <div class="clearfix"></div>

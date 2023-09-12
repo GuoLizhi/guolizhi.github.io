@@ -8,22 +8,21 @@
   <link rel="dns-prefetch" href="https://guolizhi.github.io">
   <title>Redis基础 | 开发笔记本</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="通用命令 12345678keys *      # 获取所有的key, pattern类似于正则表达式，O(n)dbsize      # 获取key的总数，时间复杂度是O(1)exists key  # 检查key是否存在，存在返回1，不存在返回0，时间复杂度是O(1)del key     # 删除指定的key-value，成功删除就返回1，失败就返回0，时间复杂度是O(1)expire k">
+  <meta name="description" content="1. Redis简介Redis的三大作用  缓存 数据库 中间件  redis是单线程的。单线程为什么这么快呢？  纯内存 非阻塞IO 避免线程切换和竞态消耗  单线程的特点  一次只运行一条命令 拒绝长(慢)命令">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Redis基础">
 <meta property="og:url" content="https://guolizhi.github.io/2023/08/01/Redis%E5%9F%BA%E7%A1%80/index.html">
 <meta property="og:site_name" content="开发笔记本">
-<meta property="og:description" content="通用命令 12345678keys *      # 获取所有的key, pattern类似于正则表达式，O(n)dbsize      # 获取key的总数，时间复杂度是O(1)exists key  # 检查key是否存在，存在返回1，不存在返回0，时间复杂度是O(1)del key     # 删除指定的key-value，成功删除就返回1，失败就返回0，时间复杂度是O(1)expire k">
+<meta property="og:description" content="1. Redis简介Redis的三大作用  缓存 数据库 中间件  redis是单线程的。单线程为什么这么快呢？  纯内存 非阻塞IO 避免线程切换和竞态消耗  单线程的特点  一次只运行一条命令 拒绝长(慢)命令">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://raw.githubusercontent.com/GuoLizhi/images/main/20230809112344.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/GuoLizhi/images/main/20230809132533.png">
 <meta property="article:published_time" content="2023-08-01T05:43:15.819Z">
-<meta property="article:modified_time" content="2023-08-13T13:34:19.504Z">
+<meta property="article:modified_time" content="2023-09-12T08:19:42.612Z">
 <meta property="article:author" content="GuoLizhi">
 <meta property="article:tag" content="数据库">
 <meta property="article:tag" content="Redis">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/GuoLizhi/images/main/20230809112344.png">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/GuoLizhi/images/main/20230809132533.png">
   
     <link rel="alternative" href="/atom.xml" title="开发笔记本" type="application/atom+xml">
   
@@ -165,98 +164,57 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>通用命令</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">keys *      <span class="comment"># 获取所有的key, pattern类似于正则表达式，O(n)</span></span><br><span class="line">dbsize      <span class="comment"># 获取key的总数，时间复杂度是O(1)</span></span><br><span class="line">exists key  <span class="comment"># 检查key是否存在，存在返回1，不存在返回0，时间复杂度是O(1)</span></span><br><span class="line">del key     <span class="comment"># 删除指定的key-value，成功删除就返回1，失败就返回0，时间复杂度是O(1)</span></span><br><span class="line">expire key seconds <span class="comment"># 给key设置seconds秒的过期时间，时间复杂度是O(1)</span></span><br><span class="line">ttl key <span class="comment"># 查看key剩余的过期时间，-1表示key没有过期时间，时间复杂度是O(1)</span></span><br><span class="line">persist key <span class="comment"># 去掉key的过期时间，时间复杂度是O(1)</span></span><br><span class="line"><span class="built_in">type</span> key <span class="comment"># 返回key的类型 string/set/hash/list/zset/none，时间复杂度是O(1)</span></span><br></pre></td></tr></table></figure>
-<span id="more"></span>
-<p>keys 不要在生产环境中随便使用，因为会扫描所有的key</p>
-<p>redis是单线程的。单线程为什么这么快呢？</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1. 纯内存</span><br><span class="line">2. 非阻塞IO</span><br><span class="line">3. 避免线程切换和竞态消耗</span><br></pre></td></tr></table></figure>
-
-<p>单线程的特点</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1. 一次只运行一条命令</span><br><span class="line">2. 拒绝长(慢)命令</span><br></pre></td></tr></table></figure>
-
-<p>字符串使用场景</p>
+        <h2 id="1-Redis简介"><a href="#1-Redis简介" class="headerlink" title="1. Redis简介"></a>1. Redis简介</h2><p>Redis的三大作用</p>
 <ol>
+<li>缓存</li>
+<li>数据库</li>
+<li>中间件</li>
+</ol>
+<p>redis是单线程的。单线程为什么这么快呢？</p>
+<ol>
+<li>纯内存</li>
+<li>非阻塞IO</li>
+<li>避免线程切换和竞态消耗</li>
+</ol>
+<p>单线程的特点</p>
+<ol>
+<li>一次只运行一条命令</li>
+<li>拒绝长(慢)命令<span id="more"></span></li>
+</ol>
+<p>通用命令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">keys *      <span class="comment"># 获取所有的key, pattern类似于正则表达式，O(n)</span></span><br><span class="line">dbsize      <span class="comment"># 获取key的总数，时间复杂度是O(1)</span></span><br><span class="line">exists key  <span class="comment"># 检查key是否存在，存在返回1，不存在返回0，时间复杂度是O(1)</span></span><br><span class="line">del key     <span class="comment"># 删除指定的key-value，成功删除就返回1，失败就返回0，时间复杂度是O(1)</span></span><br><span class="line">expire key seconds <span class="comment"># 给key设置seconds秒的过期时间，时间复杂度是O(1)</span></span><br><span class="line">ttl key <span class="comment"># 查看key剩余的过期时间，-1表示key没有过期时间，时间复杂度是O(1)</span></span><br><span class="line">persist key <span class="comment"># 去掉key的过期时间，时间复杂度是O(1)</span></span><br><span class="line"><span class="built_in">type</span> key <span class="comment"># 返回key的类型 string/set/hash/list/zset/none，时间复杂度是O(1)</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>keys 不要在生产环境中随便使用，因为会扫描所有的key</p>
+</blockquote>
+<h2 id="2-字符串"><a href="#2-字符串" class="headerlink" title="2. 字符串"></a>2. 字符串</h2><h3 id="2-1-字符串使用场景"><a href="#2-1-字符串使用场景" class="headerlink" title="2.1 字符串使用场景"></a>2.1 字符串使用场景</h3><ol>
 <li>缓存</li>
 <li>计数器</li>
 <li>分布式锁</li>
 </ol>
-<p>字符串的命令</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">get key <span class="comment"># 获取key对应的value</span></span><br><span class="line"><span class="built_in">set</span> key value <span class="comment"># 设置</span></span><br><span class="line">del key <span class="comment"># 删除key</span></span><br><span class="line">incr key <span class="comment"># key自增1，如果key不存在，自增后get(key)=1</span></span><br><span class="line">decr key <span class="comment"># key自减1，如果key不存在，自减后get(key)=-1</span></span><br><span class="line">incrby key k <span class="comment"># key自增k，如果key不存在，自增后get(key)=k</span></span><br><span class="line">decrby key k <span class="comment"># key自减k，如果key不存在，自减后get(key)=-k</span></span><br></pre></td></tr></table></figure>
+<h3 id="2-2-字符串的命令"><a href="#2-2-字符串的命令" class="headerlink" title="2.2 字符串的命令"></a>2.2 字符串的命令</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">get key           <span class="comment"># 获取key对应的value</span></span><br><span class="line">append key value2 <span class="comment"># 在key对应的value后面追加value2，如果当前key不存在，那就相当于set key</span></span><br><span class="line"><span class="built_in">set</span> key value     <span class="comment"># 设置</span></span><br><span class="line">strlen key        <span class="comment"># 获取key对应的value的字符串长度（注意中文，中文的长度是3）</span></span><br><span class="line">del key           <span class="comment"># 删除key</span></span><br><span class="line">incr key          <span class="comment"># key自增1，如果key不存在，自增后get(key)=1</span></span><br><span class="line">decr key          <span class="comment"># key自减1，如果key不存在，自减后get(key)=-1</span></span><br><span class="line">incrby key k      <span class="comment"># key自增k，如果key不存在，自增后get(key)=k</span></span><br><span class="line">decrby key k      <span class="comment"># key自减k，如果key不存在，自减后get(key)=-k</span></span><br><span class="line">getrange key start end  <span class="comment"># 截取字符串，从start位置到end为止，也可以通过getrange来获取全部的字符串start=0,end=-1</span></span><br><span class="line">setnx key value         <span class="comment"># key不存在的时候，才设置(在分布式锁中会常用)，如果存在就set失败</span></span><br><span class="line">setxx key value xx      <span class="comment"># key存在的时候，才设置</span></span><br><span class="line">setex key expire value  <span class="comment"># 设置key的value，并设置其过期时间expire秒</span></span><br><span class="line">mget key1 key2 key3...  <span class="comment"># 批量获取</span></span><br><span class="line">mset k1 v1 k2 v2 k3 v3  <span class="comment"># 批量设置</span></span><br><span class="line">msetnx k1 v1 k2 v2 k3 v3 <span class="comment"># 如果不存在 则设置成功，要么一起成功 要么一起失败</span></span><br><span class="line">getset key value <span class="comment"># 先get，再set</span></span><br></pre></td></tr></table></figure>
 
-<p>字符串set命令</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">set</span> key value <span class="comment"># 不管key是否存在，都设置</span></span><br><span class="line">setnx key value <span class="comment"># key不存在的时候，才设置</span></span><br><span class="line">setxx key value xx <span class="comment"># key存在的时候，才设置</span></span><br></pre></td></tr></table></figure>
-
-<p>批量操作</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mget key1 key2 key3... <span class="comment"># 批量获取</span></span><br></pre></td></tr></table></figure>
-
+<blockquote>
 <p>mget的请求时间&#x3D;1次网络时间+n次命令时间，总的来说要比多次使用get命令要来的快。</p>
-<p>其它的字符串命令</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">getset key newvalue <span class="comment"># 设置新的value，并返回旧的value</span></span><br><span class="line">append key value <span class="comment"># 将value追加到旧的value</span></span><br><span class="line">strlen key <span class="comment"># 返回字符串的长度（注意中文，中文的长度是3）</span></span><br></pre></td></tr></table></figure>
+</blockquote>
+<h2 id="3-哈希键值结构"><a href="#3-哈希键值结构" class="headerlink" title="3 哈希键值结构"></a>3 哈希键值结构</h2><h3 id="3-1-相关命令"><a href="#3-1-相关命令" class="headerlink" title="3.1 相关命令"></a>3.1 相关命令</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 获取hashkey中field对应的value</span></span><br><span class="line">hget key field                </span><br><span class="line"><span class="comment"># 设置hashkey中field对应的value</span></span><br><span class="line">hset key field value          </span><br><span class="line"><span class="comment"># 删除hashkey中的field</span></span><br><span class="line">hdel key field                </span><br><span class="line"><span class="comment"># 判断hash key中field是否存在</span></span><br><span class="line">hexists key field             </span><br><span class="line"><span class="comment"># 获取hash中key中field的个数</span></span><br><span class="line">hlen key                      </span><br><span class="line"><span class="comment"># 同时获取多个field</span></span><br><span class="line">hmget key field1 field2...    </span><br><span class="line"><span class="comment"># 同时设置多个filed的值</span></span><br><span class="line">hmset key field1 value1 field2 value2 field3 value3... </span><br><span class="line"><span class="comment"># 获取key所有的fields和values</span></span><br><span class="line">hgetall key                   </span><br><span class="line"><span class="comment"># 获取Key所有的values</span></span><br><span class="line">hvals key                     </span><br><span class="line"><span class="comment"># 获取key所有的fields</span></span><br><span class="line">hkeys key                     </span><br><span class="line"><span class="comment"># 如果field已经存在，则忽略</span></span><br><span class="line">hsetnx key field value        </span><br><span class="line">hincrby key field increCnt    <span class="comment"># </span></span><br><span class="line">hincrfloat key field floatCnt <span class="comment"># </span></span><br></pre></td></tr></table></figure>
 
-<p>哈希键值结构</p>
-<p><img src="https://raw.githubusercontent.com/GuoLizhi/images/main/20230809112344.png"></p>
-<p>相关命令</p>
-<ol>
-<li>hget key field 获取hashkey中field对应的value</li>
-<li>hset key field value 设置hashkey中field对应的value</li>
-<li>hdel key field 删除hashkey中的field</li>
-<li>hexists key field 判断hash key中field是否存在</li>
-<li>hlen key 获取hash中key中field的个数</li>
-<li>hmget key field1 field2… 同时获取多个field</li>
-<li>hmset key field1 value1 field2 value2 field3 value3… 同时设置多个filed的值</li>
-<li>hgetall key 获取key所有的fields和values</li>
-<li>hvals key 获取Key所有的values</li>
-<li>hkeys key 获取key所有的fields</li>
-<li>hsetnx key field value 如果field已经存在，则忽略</li>
-<li>hincrby key field increCnt</li>
-<li>hincrfloat key field floatCnt</li>
-</ol>
 <blockquote>
 <p>小心使用hgetall，因为它会返回所有的fields和values</p>
 </blockquote>
 <h3 id="string-vs-hash"><a href="#string-vs-hash" class="headerlink" title="string vs hash"></a>string vs hash</h3><p><img src="https://raw.githubusercontent.com/GuoLizhi/images/main/20230809132533.png"></p>
-<h3 id="list"><a href="#list" class="headerlink" title="list"></a>list</h3><p>redis list的特点</p>
-<ol>
+<h2 id="4-list"><a href="#4-list" class="headerlink" title="4. list"></a>4. list</h2><h3 id="4-1-特点"><a href="#4-1-特点" class="headerlink" title="4.1 特点"></a>4.1 特点</h3><ol>
 <li>有序</li>
 <li>可以重复</li>
 <li>左右两边可以弹出</li>
 </ol>
-<p>相关API</p>
-<ol>
-<li>rpush key val1 val2 val3… 从list右边插入</li>
-<li>lpush key val2 val2 val3… 从list左边插入</li>
-<li>linsert key before|after val newValue 在value前面(或后面)插入newValue</li>
-<li>lpop key 从左边弹出</li>
-<li>rpop key 从右边弹出</li>
-<li>lrem key count value 当count&#x3D;0,删除列表中所有的值为val的元素，当count&gt;0,从左边开始删除count个值为val的元素，当count&lt;0时，从右边开始删除count个值为val的元素</li>
-<li>ltrim key start end 截取list,从start索引开始到end索引结束</li>
-<li>lrange key start end 获取list中从start到end结束所有的元素</li>
-<li>lindex key index 获取list中index索引位置的元素</li>
-<li>llen key 获取list中元素的个数</li>
-<li>lset key index newVal 设置索引为index的元素值为newVal</li>
-<li>blpop key timeout 是lpop的阻塞版本，会阻塞timeout时间后再进行lpop</li>
-<li>brpop key timeout 作用和blpop类似</li>
-</ol>
-<h3 id="set"><a href="#set" class="headerlink" title="set"></a>set</h3><p>redis set的特点</p>
-<ol>
+<h3 id="4-2-相关API"><a href="#4-2-相关API" class="headerlink" title="4.2 相关API"></a>4.2 相关API</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 从list右边插入</span></span><br><span class="line">rpush key val1 val2 val3... </span><br><span class="line"><span class="comment"># 从list左边插入</span></span><br><span class="line">lpush key val2 val2 val3... </span><br><span class="line"><span class="comment"># 可以将其想象成一个链表，before和after都可以插入值</span></span><br><span class="line"><span class="comment"># 在value前面(或后面)插入newValue</span></span><br><span class="line"><span class="comment"># 如果key不存在会创建新的链表，如果存在key则新增内容</span></span><br><span class="line">linsert key before|after val newValue </span><br><span class="line"><span class="comment"># 从左边弹出</span></span><br><span class="line">lpop key   </span><br><span class="line"><span class="comment"># 从右边弹出</span></span><br><span class="line">rpop key    </span><br><span class="line"><span class="comment"># 当count=0,删除列表中所有的值为val的元素</span></span><br><span class="line"><span class="comment"># 当count&gt;0,从左边开始删除count个值为val的元素</span></span><br><span class="line"><span class="comment"># 当count&lt;0时，从右边开始删除count个值为val的元素</span></span><br><span class="line">lrem key count value    </span><br><span class="line"><span class="comment"># 截取list,从start索引开始到end索引结束 </span></span><br><span class="line">ltrim key start end     </span><br><span class="line"><span class="comment"># 获取list中从start到end结束所有的元素</span></span><br><span class="line"><span class="comment"># start=0 end=-1时可以获取list中所有的值</span></span><br><span class="line">lrange key start end    </span><br><span class="line"><span class="comment"># 获取list中index索引位置的元素</span></span><br><span class="line">lindex key index        </span><br><span class="line"><span class="comment"># 获取list中元素的个数</span></span><br><span class="line">llen key                </span><br><span class="line"><span class="comment"># 设置索引为index的元素值为newVal，如果不存在该索引会报错</span></span><br><span class="line">lset key index newVal   </span><br><span class="line"><span class="comment"># 是lpop的阻塞版本，会阻塞timeout时间后再进行lpop</span></span><br><span class="line">blpop key <span class="built_in">timeout</span>       </span><br><span class="line"><span class="comment"># 作用和blpop类似</span></span><br><span class="line">brpop key <span class="built_in">timeout</span>       </span><br></pre></td></tr></table></figure>
+<h2 id="5-set"><a href="#5-set" class="headerlink" title="5. set"></a>5. set</h2><h3 id="5-1-特点"><a href="#5-1-特点" class="headerlink" title="5.1 特点"></a>5.1 特点</h3><ol>
 <li>无序</li>
 <li>没有重复</li>
 <li>支持集合间的操作</li>
 </ol>
-<p>相关API</p>
-<ol>
-<li>sadd key element 向集合中添加元素</li>
-<li>srem key element 从集合中删除元素</li>
-<li>scard key 查看集合中元素的个数</li>
-<li>sismember key element 判断element是否在集合中</li>
-<li>srandmember key 从集合中随机取出一个元素</li>
-<li>smembers key 查看集合中的所有元素 元素是无序的</li>
-<li>spop key 从集合中弹出一个元素</li>
-<li>sdiff key1 key2 算出两个集合的差集</li>
-<li>sinter key1 key2 算出两个集合的交集</li>
-<li>sunion key1 key2 算出两个集合的并集</li>
-</ol>
+<h3 id="5-2-相关API"><a href="#5-2-相关API" class="headerlink" title="5.2 相关API"></a>5.2 相关API</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 向集合中添加元素</span></span><br><span class="line">sadd key element</span><br><span class="line"><span class="comment"># 从集合中删除元素</span></span><br><span class="line">srem key element</span><br><span class="line"><span class="comment"># 查看集合中元素的个数</span></span><br><span class="line">scard key</span><br><span class="line"><span class="comment"># 判断element是否在集合中</span></span><br><span class="line">sismember key element</span><br><span class="line"><span class="comment"># 从集合中随机取出一个元素</span></span><br><span class="line">srandmember key</span><br><span class="line"><span class="comment"># 查看集合中的所有元素 元素是无序的</span></span><br><span class="line">smembers key</span><br><span class="line"><span class="comment"># 随机从集合中弹出一个元素</span></span><br><span class="line">spop key</span><br><span class="line"><span class="comment"># 算出两个集合的差集</span></span><br><span class="line">sdiff key1 key2</span><br><span class="line"><span class="comment"># 算出两个集合的交集</span></span><br><span class="line">sinter key1 key2</span><br><span class="line"><span class="comment"># 算出两个集合的并集</span></span><br><span class="line">sunion key1 key2</span><br></pre></td></tr></table></figure>
+
 <h3 id="zset"><a href="#zset" class="headerlink" title="zset"></a>zset</h3><p>有序集合的特点</p>
 <ol>
 <li>无重复元素</li>
@@ -537,6 +495,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">Solidity</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">RabbitMQ</a>
               </li>
             
             <div class="clearfix"></div>
