@@ -16,7 +16,7 @@
 <meta property="og:description" content="1. Redis简介Redis的三大作用  缓存 数据库 中间件  redis是单线程的。单线程为什么这么快呢？  纯内存 非阻塞IO 避免线程切换和竞态消耗  单线程的特点  一次只运行一条命令 拒绝长(慢)命令">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2023-08-01T05:43:15.819Z">
-<meta property="article:modified_time" content="2023-09-14T01:37:23.863Z">
+<meta property="article:modified_time" content="2023-09-18T13:24:33.651Z">
 <meta property="article:author" content="GuoLizhi">
 <meta property="article:tag" content="数据库">
 <meta property="article:tag" content="Redis">
@@ -277,6 +277,38 @@
 
 <p>如果执行失败，可以通过<code>unwatch</code>来解锁</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; unwatch <span class="comment"># 解锁</span></span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; watch balance <span class="comment"># 获取balance最新的值，再次监视</span></span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; multi</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379(TX)&gt; incr balance</span><br><span class="line">QUEUED</span><br><span class="line">127.0.0.1:6379(TX)&gt; decr out</span><br><span class="line">QUEUED</span><br><span class="line">127.0.0.1:6379(TX)&gt; <span class="built_in">exec</span> <span class="comment"># 对比监视的值是否发生变化，如果没有变化，那么可以执行成功，如果变化了就执行失败</span></span><br><span class="line">1) (<span class="built_in">integer</span>) 1101</span><br><span class="line">2) (<span class="built_in">integer</span>) -1</span><br></pre></td></tr></table></figure>
+
+<h2 id="9-Redis-conf"><a href="#9-Redis-conf" class="headerlink" title="9. Redis.conf"></a>9. Redis.conf</h2><ol>
+<li><p>配置文件在unit单位对大小写不敏感</p>
+</li>
+<li><p>Network模块</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 绑定的ip</span></span><br><span class="line"><span class="built_in">bind</span> 127.0.0.1 ::1 </span><br><span class="line"><span class="comment"># 保护模式是否开启</span></span><br><span class="line">protected-mode <span class="built_in">yes</span></span><br><span class="line"><span class="comment"># 端口号</span></span><br><span class="line">port 6379</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>General模块</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 是否以守护进程开启</span></span><br><span class="line">daemonize <span class="built_in">yes</span></span><br><span class="line"><span class="comment"># 如果以守护进程的方式运行，就需要指定一个pid文件</span></span><br><span class="line">pidfile /var/run/redis/redis-server.pid</span><br><span class="line"><span class="comment"># 日志级别</span></span><br><span class="line">loglevel notice</span><br><span class="line"><span class="comment"># 日志文件名</span></span><br><span class="line">logfile /var/log/redis/redis-server.log</span><br><span class="line"><span class="comment"># 数据库的数量，默认16个</span></span><br><span class="line">databases 16</span><br><span class="line"><span class="comment"># 是否显示logo</span></span><br><span class="line">always-show-logo <span class="built_in">yes</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>snapshotting模块<br>持久化，在规定的时间内，执行了多少操作，就会持久化到rdb文件。（aof文件）</p>
+</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 如果900s内至少有一个key进行过修改，我们就进行持久化操作</span></span><br><span class="line">save 900 1 </span><br><span class="line"><span class="comment"># 如果300s内至少有10个key进行过修改，我们就进行持久化操作</span></span><br><span class="line">save 300 10</span><br><span class="line"><span class="comment"># 如果60s内至少有10000个key进行过修改，我们就进行持久化操作</span></span><br><span class="line">save 60 10000</span><br><span class="line"><span class="comment"># 如果持久化的过程出错了，是否需要继续工作</span></span><br><span class="line">stop-writes-on-bgsave-error <span class="built_in">yes</span></span><br><span class="line"><span class="comment"># 是否压缩rdb文件，需要消耗一些cpu资源</span></span><br><span class="line">rdbcompression <span class="built_in">yes</span></span><br><span class="line"><span class="comment"># 保存rdb文件的时候，进行错误的检查校验</span></span><br><span class="line">rdbchecksum <span class="built_in">yes</span></span><br><span class="line"><span class="comment"># rdb文件的保存目录</span></span><br><span class="line"><span class="built_in">dir</span> /var/lib/redis</span><br></pre></td></tr></table></figure>
+
+<ol start="5">
+<li><p>REPLICATION 主从复制模块</p>
+</li>
+<li><p>security 安全模块</p>
+</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 是否需要密码</span></span><br><span class="line">requirepass foobared</span><br></pre></td></tr></table></figure>
+
+<ol start="7">
+<li>client模块</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 最大客户端连接数</span></span><br><span class="line">maxclients 10000</span><br><span class="line"><span class="comment"># 最大的内存设置</span></span><br><span class="line">maxmemory &lt;bytes&gt;</span><br><span class="line"><span class="comment"># 内存到达上限后的策略</span></span><br><span class="line">maxmemory-policy noeviction</span><br></pre></td></tr></table></figure>
+
+<ol start="8">
+<li>APPEND ONLY MODE</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 默认不开启aof模式</span></span><br><span class="line">appendonly no</span><br><span class="line"><span class="comment"># 持久化文件的名字</span></span><br><span class="line">appendfilename <span class="string">&quot;appendonly.aof&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># appendfsync always  # 每次修改了都会同步，速度比较慢</span></span><br><span class="line">appendfsync everysec  <span class="comment"># 每秒都同步一下</span></span><br><span class="line"><span class="comment"># appendfsync no      # 不执行sync </span></span><br></pre></td></tr></table></figure>
       
 
       
