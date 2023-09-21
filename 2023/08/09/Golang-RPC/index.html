@@ -16,7 +16,7 @@
 <meta property="og:description" content="使用Golang自带的RPC实现一个简单的demo，RPC分为服务端和客户端，服务端的demo如下 12345678910111213141516171819202122232425type HelloService struct &amp;#123;&amp;#125;func (s *HelloService) Hello(request string, reply *string) error &amp;#123;">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2023-08-09T10:14:03.000Z">
-<meta property="article:modified_time" content="2023-08-10T12:46:22.104Z">
+<meta property="article:modified_time" content="2023-09-19T13:28:16.801Z">
 <meta property="article:author" content="GuoLizhi">
 <meta property="article:tag" content="Go">
 <meta name="twitter:card" content="summary">
@@ -172,6 +172,15 @@
 
 <p>服务端代码</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="comment">// 实例化一个server</span></span><br><span class="line">	listen, err := net.Listen(<span class="string">&quot;tcp&quot;</span>, <span class="string">&quot;:1234&quot;</span>)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// 注册逻辑处理 handler</span></span><br><span class="line">	<span class="keyword">if</span> err = rpc.RegisterName(<span class="string">&quot;HelloService&quot;</span>, &amp;HelloService&#123;&#125;); err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// 启动服务</span></span><br><span class="line">	conn, err := listen.Accept()</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line">	rpc.ServeCodec(jsonrpc.NewServerCodec(conn))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>protobuf是谷歌开源的一种数据格式，适合高性能，对响应适度有要求的数据传输场景。因为profobuf是二进制数据格式，需要编码和解码。数据本身不具有可读性。因此只能反序列化之后得到真正可读的数据。<br>它的优势如下:</p>
+<ol>
+<li>序列化后体积相比|son和XML很小，适合网络传输</li>
+<li>支持跨平台多语言</li>
+<li>消息格式升级和兼容性还不错</li>
+<li>序列化反序列化速度很快</li>
+</ol>
+
       
 
       

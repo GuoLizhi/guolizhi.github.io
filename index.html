@@ -249,6 +249,18 @@
 <li>rabbitmq-plugins enable rabbitmq_management 激活rabbitmq_management这个插件</li>
 <li>rabbitmq-plugins disable rabbitmq_management 禁用rabbitmq_management这个插件</li>
 </ol>
+<p>关键概念</p>
+<ol>
+<li>publisher: 消息生产者 即向队列发布消息的客户端程序</li>
+<li>consumer: 消息消费者 即向队列获取消息的客户端程序</li>
+<li>broker: 表示一个rabbitmq服务器节点</li>
+<li>exchange: 交换器 用来接收生产者发送的消息并将这些消息路由给服务器中的队列</li>
+<li>queue: 消息队列，可以用来保存消息直到发送给消费者。它是消息的容器，也是消息的终点。一个消息可以投入一个或者多个队列。消息一直在队列里面，等待消费者连接到这个队列将其取走</li>
+<li>connection: 网络连接 类似于tcp连接，或者数据库连接</li>
+<li>channel: 信道 amqp命令都是通过信道发出去的，不管是发布消息，订阅队列还是接收消息，这些动作都需要通过信道完成</li>
+<li>binding: 绑定 用于消息队列和交换机之间的关联</li>
+<li>virtualHost: 虚拟主机 表示交换器，消息队列和相关对象。虚拟主机是共享相同的身份认证和加密环境的独立服务器域。各个虚拟主机之间相互独立，互不干扰，可以用于区分不同的业务。RabbitMQ 默认的 vhost 是 &#x2F; 。</li>
+</ol>
 <p>极速入门</p>
 <ol>
 <li>Simple模式: 最简单 最常用的模式</li>
@@ -547,6 +559,15 @@
 
 <p>服务端代码</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="comment">// 实例化一个server</span></span><br><span class="line">	listen, err := net.Listen(<span class="string">&quot;tcp&quot;</span>, <span class="string">&quot;:1234&quot;</span>)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// 注册逻辑处理 handler</span></span><br><span class="line">	<span class="keyword">if</span> err = rpc.RegisterName(<span class="string">&quot;HelloService&quot;</span>, &amp;HelloService&#123;&#125;); err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// 启动服务</span></span><br><span class="line">	conn, err := listen.Accept()</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line">	rpc.ServeCodec(jsonrpc.NewServerCodec(conn))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>protobuf是谷歌开源的一种数据格式，适合高性能，对响应适度有要求的数据传输场景。因为profobuf是二进制数据格式，需要编码和解码。数据本身不具有可读性。因此只能反序列化之后得到真正可读的数据。<br>它的优势如下:</p>
+<ol>
+<li>序列化后体积相比|son和XML很小，适合网络传输</li>
+<li>支持跨平台多语言</li>
+<li>消息格式升级和兼容性还不错</li>
+<li>序列化反序列化速度很快</li>
+</ol>
+
       
 
       
