@@ -16,7 +16,7 @@
 <meta property="og:description" content="合约的基本结构  合约中的成员函数 合约中的成员变量 Event, Modifier, constructor  成员变量  概念：存储合约状态的变量 声明方法：类型[访问修饰符] 变量名 默认：internal  成员变量的可见性  三个维度: 合约外部，本合约，子合约 public 完全可见；private 仅对本合约可见；internal 对继承的子合约可见 默认值的问题  合约函数的定义">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2023-08-10T02:28:00.000Z">
-<meta property="article:modified_time" content="2023-08-31T14:39:15.217Z">
+<meta property="article:modified_time" content="2023-10-08T02:25:35.257Z">
 <meta property="article:author" content="GuoLizhi">
 <meta property="article:tag" content="Solidity">
 <meta name="twitter:card" content="summary">
@@ -203,12 +203,32 @@
 <ol>
 <li>值类型</li>
 </ol>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">基本数据类型: 整数 枚举 布尔</span><br><span class="line">Address contract</span><br><span class="line"></span><br><span class="line">address: 20个字节长度</span><br><span class="line">address payable: 可支付，有成员函数transfer和send</span><br><span class="line">address可以转换为uint160和bytes20</span><br><span class="line">合约账号地址与外部账号地址</span><br><span class="line">call/balance等，很大程度上address已经不是一个单纯的数据类型了</span><br><span class="line"></span><br><span class="line">Fixed byte array: 定长字节数组</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">基本数据类型: 整数 枚举 布尔</span><br><span class="line">Address contract</span><br><span class="line"></span><br><span class="line">address: 20个字节长度</span><br><span class="line">address payable: 可支付，有成员函数transfer和send，在payable修饰的地址中，send执行失败不会影响当前合约的执行</span><br><span class="line">address可以转换为uint160和bytes20</span><br><span class="line">合约账号地址与外部账号地址</span><br><span class="line">call/balance等，很大程度上address已经不是一个单纯的数据类型了</span><br><span class="line"></span><br><span class="line">Fixed byte array: 定长字节数组</span><br></pre></td></tr></table></figure>
 
-<ol start="2">
-<li>引用类型</li>
+<p>address相关</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">address <span class="type">public</span> <span class="variable">_addr</span> <span class="operator">=</span> <span class="number">0x7A58c0Be72BE218B41C608b7Fe7C5bB630736C71</span>;</span><br><span class="line">address payable <span class="type">public</span> <span class="variable">_addr2</span> <span class="operator">=</span> payable(_addr); <span class="comment">// payable address可以转账，查看余额</span></span><br><span class="line">uint256 <span class="type">public</span> <span class="variable">balance</span> <span class="operator">=</span> _addr2.balance; <span class="comment">// 查看余额</span></span><br></pre></td></tr></table></figure>
+
+<p>定长字节数组</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// MiniSolidity 以字节的方式存储进变量</span></span><br><span class="line">bytes32 <span class="type">public</span> <span class="variable">_bytes32</span> <span class="operator">=</span> <span class="string">&quot;MiniSolidity&quot;</span>; <span class="comment">// 0x4d696e69536f6c69646974790000000000000000000000000000000000000000</span></span><br><span class="line"><span class="comment">// _bytes1获取第一个字节 0x4d</span></span><br><span class="line">bytes1 <span class="type">public</span> <span class="variable">_bytes1</span> <span class="operator">=</span> _bytes32[<span class="number">0</span>]; <span class="comment">// 0x4d</span></span><br></pre></td></tr></table></figure>
+
+<p>枚举类型</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 用enum将uint 0， 1， 2表示为Buy, Hold, Sell</span></span><br><span class="line"><span class="keyword">enum</span> <span class="title class_">ActionSet</span> &#123; Buy, Hold, Sell &#125;</span><br><span class="line"><span class="comment">// 创建enum变量 action</span></span><br><span class="line"><span class="type">ActionSet</span> <span class="variable">action</span> <span class="operator">=</span> ActionSet.Buy;</span><br></pre></td></tr></table></figure>
+
+<p>函数的不同类型</p>
+<ol>
+<li>pure: 包含pure关键字的函数，不能读取也不能写入存储在链上的状态变量</li>
+<li>view: 能够读取但是不能写入状态变量</li>
+<li>不写pure和view，函数即可以读取也可以写入状态变量</li>
 </ol>
-
+<p>函数的可见性</p>
+<ol>
+<li>public: 内部外部均可见</li>
+<li>private: 只能从本合约内部访问，继承的合约也不能用</li>
+<li>external: 只能从合约外部访问</li>
+<li>internal: 只能从合约内部访问</li>
+</ol>
+<p>函数的返回值</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 没有显示指定返回值的名称</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">returnMulti</span>(<span class="params"></span>) external pure <span class="title function_">returns</span>(<span class="params">uint256, bool, uint256[<span class="number">3</span>] memory</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> (<span class="number">1</span>, <span class="literal">false</span>, [<span class="title function_">uint256</span>(<span class="number">19</span>),<span class="number">1</span>,<span class="number">2</span>]);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 指定返回值的名称</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">returnMulti2</span>(<span class="params"></span>) external pure returns (uint256 num, bool b, uint256[<span class="number">3</span>] memory m) &#123;</span><br><span class="line">    num = <span class="number">123</span>;</span><br><span class="line">    b = <span class="literal">true</span>;</span><br><span class="line">    m = [<span class="title function_">uint256</span>(<span class="number">1</span>), <span class="number">2</span>, <span class="number">3</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
       
 
       
@@ -345,7 +365,7 @@
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2023 GuoLizhi
+    		&copy; 2024 GuoLizhi
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
