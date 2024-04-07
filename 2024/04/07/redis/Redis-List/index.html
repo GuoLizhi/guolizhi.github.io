@@ -16,7 +16,7 @@
 <meta property="og:description" content="Redis中list是一种线性的有序结构，可以按照元素被推入列表中的顺序来存储元素，这些元素即可以是文字数据也可以是二进制数据">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2024-04-07T02:24:07.418Z">
-<meta property="article:modified_time" content="2024-04-07T02:25:28.783Z">
+<meta property="article:modified_time" content="2024-04-07T10:34:13.002Z">
 <meta property="article:author" content="GuoLizhi">
 <meta property="article:tag" content="数据库">
 <meta property="article:tag" content="Redis">
@@ -164,7 +164,12 @@
       
         <p>Redis中list是一种线性的有序结构，可以按照元素被推入列表中的顺序来存储元素，这些元素即可以是文字数据也可以是二进制数据</p>
 <span id="more"></span>
-
+<h3 id="4-1-特点"><a href="#4-1-特点" class="headerlink" title="4.1 特点"></a>4.1 特点</h3><ol>
+<li>有序</li>
+<li>可以重复</li>
+<li>左右两边可以弹出</li>
+</ol>
+<h3 id="4-2-相关API"><a href="#4-2-相关API" class="headerlink" title="4.2 相关API"></a>4.2 相关API</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 从list右边插入</span></span><br><span class="line">rpush key val1 val2 val3... </span><br><span class="line"><span class="comment"># 从list左边插入</span></span><br><span class="line">lpush key val2 val2 val3... </span><br><span class="line"><span class="comment"># 可以将其想象成一个链表，before和after都可以插入值</span></span><br><span class="line"><span class="comment"># 在value前面(或后面)插入newValue</span></span><br><span class="line"><span class="comment"># 如果key不存在会创建新的链表，如果存在key则新增内容</span></span><br><span class="line">linsert key before|after val newValue </span><br><span class="line"><span class="comment"># 从左边弹出</span></span><br><span class="line">lpop key</span><br><span class="line"><span class="comment"># 从右边弹出</span></span><br><span class="line">rpop key </span><br><span class="line"><span class="comment"># 当count=0,删除列表中所有的值为val的元素</span></span><br><span class="line"><span class="comment"># 当count&gt;0,从左边开始删除count个值为val的元素</span></span><br><span class="line"><span class="comment"># 当count&lt;0时，从右边开始删除count个值为val的元素</span></span><br><span class="line">lrem key count value </span><br><span class="line"><span class="comment"># 截取list,从start索引开始到end索引结束 </span></span><br><span class="line">ltrim key start end</span><br><span class="line"><span class="comment"># 获取list中从start到end结束所有的元素</span></span><br><span class="line"><span class="comment"># start=0 end=-1时可以获取list中所有的值</span></span><br><span class="line">lrange key start end    </span><br><span class="line"><span class="comment"># 获取list中index索引位置的元素</span></span><br><span class="line">lindex key index        </span><br><span class="line"><span class="comment"># 获取list中元素的个数</span></span><br><span class="line">llen key                </span><br><span class="line"><span class="comment"># 设置索引为index的元素值为newVal，如果不存在该索引会报错</span></span><br><span class="line">lset key index newVal   </span><br><span class="line"><span class="comment"># 是lpop的阻塞版本，会阻塞timeout时间后再进行lpop</span></span><br><span class="line">blpop key <span class="built_in">timeout</span>       </span><br><span class="line"><span class="comment"># 作用和blpop类似</span></span><br><span class="line">brpop key <span class="built_in">timeout</span>       </span><br></pre></td></tr></table></figure>
       
 
       
@@ -250,6 +255,15 @@
 
   
 <nav id="article-nav">
+  
+    <a href="/2024/04/07/redis/Redis-Hash/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          Redis Hash
+        
+      </div>
+    </a>
   
   
     <a href="/2023/09/18/Golang%E6%B3%9B%E5%9E%8B/" id="article-nav-older" class="article-nav-link-wrap">

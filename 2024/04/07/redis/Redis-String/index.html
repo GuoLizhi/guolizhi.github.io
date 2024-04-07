@@ -6,17 +6,17 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="https://guolizhi.github.io">
-  <title>Redis基础 | 开发笔记本</title>
+  <title>Redis String | 开发笔记本</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="5. set5.1 特点 无序 没有重复 支持集合间的操作  5.2 相关API1234567891011121314151617181920# 向集合中添加元素sadd key element# 从集合中删除元素srem key element# 查看集合中元素的个数scard key# 判断element是否在集合中sismember key element# 从集合中随机取出一个元素sran">
+  <meta name="description" content="1. Redis简介Redis的三大作用  缓存 数据库 中间件  redis是单线程的。单线程为什么这么快呢？  纯内存 非阻塞IO 避免线程切换和竞态消耗  单线程的特点  一次只运行一条命令 拒绝长(慢)命令">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Redis基础">
-<meta property="og:url" content="https://guolizhi.github.io/2023/08/01/Redis%E5%9F%BA%E7%A1%80/index.html">
+<meta property="og:title" content="Redis String">
+<meta property="og:url" content="https://guolizhi.github.io/2024/04/07/redis/Redis-String/index.html">
 <meta property="og:site_name" content="开发笔记本">
-<meta property="og:description" content="5. set5.1 特点 无序 没有重复 支持集合间的操作  5.2 相关API1234567891011121314151617181920# 向集合中添加元素sadd key element# 从集合中删除元素srem key element# 查看集合中元素的个数scard key# 判断element是否在集合中sismember key element# 从集合中随机取出一个元素sran">
+<meta property="og:description" content="1. Redis简介Redis的三大作用  缓存 数据库 中间件  redis是单线程的。单线程为什么这么快呢？  纯内存 非阻塞IO 避免线程切换和竞态消耗  单线程的特点  一次只运行一条命令 拒绝长(慢)命令">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2023-08-01T05:43:15.819Z">
-<meta property="article:modified_time" content="2024-04-07T10:33:52.313Z">
+<meta property="article:published_time" content="2024-04-07T10:32:52.058Z">
+<meta property="article:modified_time" content="2024-04-07T10:33:46.598Z">
 <meta property="article:author" content="GuoLizhi">
 <meta property="article:tag" content="数据库">
 <meta property="article:tag" content="Redis">
@@ -142,128 +142,67 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-Redis基础" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-redis/Redis-String" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      Redis基础
+      Redis String
     </h1>
   
 
         
-        <a href="/2023/08/01/Redis%E5%9F%BA%E7%A1%80/" class="archive-article-date">
-  	<time datetime="2023-08-01T05:43:15.819Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-08-01</time>
+        <a href="/2024/04/07/redis/Redis-String/" class="archive-article-date">
+  	<time datetime="2024-04-07T10:32:52.058Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-04-07</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="5-set"><a href="#5-set" class="headerlink" title="5. set"></a>5. set</h2><h3 id="5-1-特点"><a href="#5-1-特点" class="headerlink" title="5.1 特点"></a>5.1 特点</h3><ol>
-<li>无序</li>
-<li>没有重复</li>
-<li>支持集合间的操作</li>
-</ol>
-<h3 id="5-2-相关API"><a href="#5-2-相关API" class="headerlink" title="5.2 相关API"></a>5.2 相关API</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 向集合中添加元素</span></span><br><span class="line">sadd key element</span><br><span class="line"><span class="comment"># 从集合中删除元素</span></span><br><span class="line">srem key element</span><br><span class="line"><span class="comment"># 查看集合中元素的个数</span></span><br><span class="line">scard key</span><br><span class="line"><span class="comment"># 判断element是否在集合中</span></span><br><span class="line">sismember key element</span><br><span class="line"><span class="comment"># 从集合中随机取出一个元素</span></span><br><span class="line">srandmember key</span><br><span class="line"><span class="comment"># 查看集合中的所有元素 元素是无序的</span></span><br><span class="line">smembers key</span><br><span class="line"><span class="comment"># 随机从集合中弹出一个元素</span></span><br><span class="line">spop key</span><br><span class="line"><span class="comment"># 算出两个集合的差集</span></span><br><span class="line">sdiff key1 key2</span><br><span class="line"><span class="comment"># 算出两个集合的交集</span></span><br><span class="line">sinter key1 key2</span><br><span class="line"><span class="comment"># 算出两个集合的并集</span></span><br><span class="line">sunion key1 key2</span><br></pre></td></tr></table></figure>
-
-<h2 id="6-zset"><a href="#6-zset" class="headerlink" title="6. zset"></a>6. zset</h2><h3 id="6-1-有序集合的特点"><a href="#6-1-有序集合的特点" class="headerlink" title="6.1 有序集合的特点"></a>6.1 有序集合的特点</h3><p>有序集合通常用于网站中的各种榜单</p>
+        <h2 id="1-Redis简介"><a href="#1-Redis简介" class="headerlink" title="1. Redis简介"></a>1. Redis简介</h2><p>Redis的三大作用</p>
 <ol>
-<li>无重复元素</li>
-<li>有序</li>
-<li>element + score</li>
+<li>缓存</li>
+<li>数据库</li>
+<li>中间件</li>
 </ol>
-<h3 id="6-2-相关API"><a href="#6-2-相关API" class="headerlink" title="6.2 相关API"></a>6.2 相关API</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 向集合key里面添加score和element(score和element可以是多对)</span></span><br><span class="line">zadd key score element</span><br><span class="line"><span class="comment"># 删除集合key中的element(element可以是多个)</span></span><br><span class="line">zrem key element</span><br><span class="line"><span class="comment"># 返回集合key中element的分数</span></span><br><span class="line">zscore key element</span><br><span class="line"><span class="comment"># 给集合key中的element增加incrScore分</span></span><br><span class="line">zincrby key incrScore element</span><br><span class="line"><span class="comment"># 返回集合中元素的个数</span></span><br><span class="line">zcard key</span><br><span class="line"><span class="comment"># 返回集合key中element的排名</span></span><br><span class="line">zrank key element</span><br><span class="line"><span class="comment"># 返回从排名为start到end的元素(升序)</span></span><br><span class="line">zrangebyscore key start end [withscore]</span><br><span class="line"><span class="comment"># 获取从minScore到maxScore区间内所有元素的个数</span></span><br><span class="line">zcount key minScore maxScore</span><br></pre></td></tr></table></figure>
-
-<h3 id="慢查询"><a href="#慢查询" class="headerlink" title="慢查询"></a>慢查询</h3><p>Redis执行命令的生命周期</p>
+<p>redis是单线程的。单线程为什么这么快呢？</p>
 <ol>
-<li>客户端发送命令</li>
-<li>命令排队等待执行</li>
-<li>执行命令</li>
-<li>返回结果</li>
+<li>纯内存</li>
+<li>非阻塞IO</li>
+<li>避免线程切换和竞态消耗</li>
 </ol>
-<p>其中慢查询发生在第3个阶段，慢查询的两个配置项</p>
+<p>单线程的特点</p>
 <ol>
-<li>slowlog-max-len 它是一个先进先出的队列(固定长度)，并且保存在内存中，默认值128</li>
-<li>slowlog-log-slower-than 慢查询的阈值(单位: 微秒)，当这个配置设置为0时，会记录所有的命令，当这个配置设置小于0时，所有的命令都不会记录，默认值10000微秒</li>
+<li>一次只运行一条命令</li>
+<li>拒绝长(慢)命令<span id="more"></span></li>
 </ol>
-<p>有关慢查询的几个命令</p>
+<p>通用命令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">keys *      <span class="comment"># 获取所有的key, pattern类似于正则表达式，O(n)</span></span><br><span class="line">dbsize      <span class="comment"># 获取key的总数，时间复杂度是O(1)</span></span><br><span class="line">exists key  <span class="comment"># 检查key是否存在，存在返回1，不存在返回0，时间复杂度是O(1)</span></span><br><span class="line">del key     <span class="comment"># 删除指定的key-value，成功删除就返回1，失败就返回0，时间复杂度是O(1)</span></span><br><span class="line">expire key seconds <span class="comment"># 给key设置seconds秒的过期时间，时间复杂度是O(1)</span></span><br><span class="line">ttl key <span class="comment"># 查看key剩余的过期时间，-1表示key没有过期时间，时间复杂度是O(1)</span></span><br><span class="line">persist key <span class="comment"># 去掉key的过期时间，时间复杂度是O(1)</span></span><br><span class="line"><span class="built_in">type</span> key <span class="comment"># 返回key的类型 string/set/hash/list/zset/none，时间复杂度是O(1)</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>keys 不要在生产环境中随便使用，因为会扫描所有的key</p>
+</blockquote>
+<h2 id="2-字符串"><a href="#2-字符串" class="headerlink" title="2. 字符串"></a>2. 字符串</h2><h3 id="2-1-字符串使用场景"><a href="#2-1-字符串使用场景" class="headerlink" title="2.1 字符串使用场景"></a>2.1 字符串使用场景</h3><ol>
+<li>缓存</li>
+<li>计数器</li>
+<li>分布式锁</li>
+</ol>
+<!-- more -->
+
+<h3 id="2-2-字符串的命令"><a href="#2-2-字符串的命令" class="headerlink" title="2.2 字符串的命令"></a>2.2 字符串的命令</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 获取key对应的value</span></span><br><span class="line">get key           </span><br><span class="line"><span class="comment"># 在key对应的value后面追加value2，如果当前key不存在，那就相当于set key</span></span><br><span class="line">append key value2 </span><br><span class="line"><span class="comment"># 设置</span></span><br><span class="line"><span class="built_in">set</span> key value     </span><br><span class="line"><span class="comment"># 获取key对应的value的字符串长度（注意中文，中文的长度是3）</span></span><br><span class="line"><span class="comment"># 对于不存在的键，strlen命令将返回0</span></span><br><span class="line">strlen key        </span><br><span class="line"><span class="comment"># 删除key</span></span><br><span class="line">del key           </span><br><span class="line"><span class="comment"># incr/decr只能对整数进行操作，否则会抛出错误</span></span><br><span class="line"><span class="comment"># incr/decr如果对一个不存在的键进行操作，会将该键初始化为0，在进行操作</span></span><br><span class="line"><span class="comment"># key自增1</span></span><br><span class="line">incr key          </span><br><span class="line"><span class="comment"># key自减1····</span></span><br><span class="line">decr key          </span><br><span class="line"><span class="comment"># key自增k</span></span><br><span class="line">incrby key k      </span><br><span class="line"><span class="comment"># key自减k</span></span><br><span class="line">decrby key k      </span><br><span class="line"><span class="comment"># 浮点数的incrbyfloat，没有decrby</span></span><br><span class="line"><span class="comment"># incrbyfloat最多只能处理小数点后17位数字，超出后会被截断</span></span><br><span class="line">incrbyfloat key num</span><br><span class="line"></span><br><span class="line"><span class="comment"># 截取字符串，从start位置到end为止，也可以通过getrange来获取全部的字符串start=0,end=-1</span></span><br><span class="line">getrange key start end  </span><br><span class="line"><span class="comment"># key不存在的时候，才设置(在分布式锁中会常用)，如果存在就set失败</span></span><br><span class="line">setnx key value         </span><br><span class="line"><span class="comment"># key存在的时候，才设置</span></span><br><span class="line">setxx key value xx      </span><br><span class="line"><span class="comment"># 设置key的value，并设置其过期时间expire秒</span></span><br><span class="line">setex key expire value  </span><br><span class="line"><span class="comment"># 批量获取</span></span><br><span class="line">mget key1 key2 key3...  </span><br><span class="line"><span class="comment"># 批量设置</span></span><br><span class="line">mset k1 v1 k2 v2 k3 v3  </span><br><span class="line"><span class="comment"># 如果所有的key不存在 则设置成功，否则失败</span></span><br><span class="line"><span class="comment"># 要么一起成功 要么一起失败</span></span><br><span class="line">msetnx k1 v1 k2 v2 k3 v3 </span><br><span class="line"><span class="comment"># 先get出old value，再set</span></span><br><span class="line">getset key value </span><br><span class="line"><span class="comment"># 字符串的正数索引是从0开始，从字符串的开头向结尾不断递增</span></span><br><span class="line"><span class="comment"># 字符串的负数索引是从-1开始，从字符串的末尾向开头不断递减</span></span><br><span class="line"><span class="comment"># 获取字符串值指定索引返回的内容（包含start和end位置上的值）</span></span><br><span class="line">getrange key start end</span><br><span class="line"><span class="comment"># 对字符串值的指定索引范围进行设置，当用户给定的index索引超出字符串值的长度时，字符串值末尾会使用空字节进行填充</span></span><br><span class="line">setrange key index substitute</span><br><span class="line"><span class="comment"># set message &quot;hello world&quot;</span></span><br><span class="line"><span class="comment"># 返回11，message被替换为hello redis</span></span><br><span class="line"><span class="comment"># setrange message 6 &quot;redis&quot;</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>mget的请求时间&#x3D;1次网络时间+n次命令时间，总的来说要比多次使用get命令要来的快。</p>
+</blockquote>
+<p>每当用户讲一个值存储到字符串键里面的时候，Redis都会对这个值进行检测，如果这个值能够被解释称以下两种类型中的一种，那么Redis就会把这个值当做数字来处理</p>
 <ol>
-<li>slowlog get [n] : 获取慢查询队列</li>
-<li>slowlog len: 获取慢查询队列长度</li>
-<li>slowlog reset: 清空慢查询队列</li>
+<li>不超过C语言中的long long int类型存储的正数</li>
+<li>能够使用C语言long double类型存储的浮点数</li>
 </ol>
-<p>有关慢查询的运维经验</p>
-<ol>
-<li>slowlog-max-len不要设置过大，默认10ms 通常设置1ms</li>
-<li>slowlog-log-slower-than不要设置过小，通常设置1000左右。</li>
-<li>理解命令生命周期</li>
-<li>定期持久化慢查询</li>
-</ol>
-<p>动态配置</p>
-<ol>
-<li>config set slowlog-max-len 1000</li>
-<li>config set slowlog-log-slower-than 1000</li>
-</ol>
-<h2 id="7-事务"><a href="#7-事务" class="headerlink" title="7. 事务"></a>7. 事务</h2><h3 id="7-1-基本用法"><a href="#7-1-基本用法" class="headerlink" title="7.1 基本用法"></a>7.1 基本用法</h3><p>Redis单条命令式原子性的，但是事务不保证原子性。事务的本质是一组命令。一个事务中所有的命令都会被序列化，按照顺序执行。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 开启事务</span></span><br><span class="line">multi</span><br><span class="line"><span class="comment"># 多条语句</span></span><br><span class="line"><span class="built_in">set</span> k1 v1</span><br><span class="line"><span class="built_in">set</span> k2 v2</span><br><span class="line">get k1</span><br><span class="line"><span class="comment"># 执行事务</span></span><br><span class="line"><span class="built_in">exec</span></span><br><span class="line"><span class="comment"># 如果需要取消执行事务</span></span><br><span class="line"><span class="comment"># 上面所有的命令都不会被执行</span></span><br><span class="line">discard</span><br></pre></td></tr></table></figure>
+<p>incr的用途: 可以做限速器，比如网站多久内一个IP最多允许访问x次，或者一段时间内，一个用户仅仅允许密码输入错误x次</p>
 
-<h3 id="7-2-事务异常"><a href="#7-2-事务异常" class="headerlink" title="7.2 事务异常"></a>7.2 事务异常</h3><ol>
-<li>编译型异常，所有事务中的命令都不会被执行</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; multi</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379(TX)&gt; <span class="built_in">set</span> k1 v1 </span><br><span class="line">QUEUED</span><br><span class="line">127.0.0.1:6379(TX)&gt; <span class="built_in">set</span> k2 v2</span><br><span class="line">QUEUED</span><br><span class="line">127.0.0.1:6379(TX)&gt; getset k3</span><br><span class="line">(error) ERR wrong number of arguments <span class="keyword">for</span> <span class="string">&#x27;getset&#x27;</span> <span class="built_in">command</span></span><br><span class="line">127.0.0.1:6379(TX)&gt; <span class="built_in">set</span> k4 v4</span><br><span class="line">QUEUED</span><br><span class="line">127.0.0.1:6379(TX)&gt; <span class="built_in">set</span> k5 v5</span><br><span class="line">QUEUED</span><br><span class="line">127.0.0.1:6379(TX)&gt; exex</span><br><span class="line">(error) ERR unknown <span class="built_in">command</span> <span class="string">&#x27;exex&#x27;</span>, with args beginning with: </span><br><span class="line">127.0.0.1:6379(TX)&gt; <span class="built_in">exec</span></span><br><span class="line">(error) EXECABORT Transaction discarded because of previous errors.</span><br><span class="line">127.0.0.1:6379&gt; get k1 <span class="comment"># 获取不到值</span></span><br><span class="line">(nil)</span><br><span class="line">127.0.0.1:6379&gt; get k4 <span class="comment"># 获取不到值</span></span><br><span class="line">(nil)</span><br><span class="line">127.0.0.1:6379&gt; </span><br></pre></td></tr></table></figure>
-
-<ol start="2">
-<li>运行时异常，不会影响正常的命令执行</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; <span class="built_in">set</span> k1 v1</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; multi</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379(TX)&gt; incr k1</span><br><span class="line">QUEUED</span><br><span class="line">127.0.0.1:6379(TX)&gt; <span class="built_in">set</span> k2 v2</span><br><span class="line">QUEUED</span><br><span class="line">127.0.0.1:6379(TX)&gt; <span class="built_in">set</span> k3 v3</span><br><span class="line">QUEUED</span><br><span class="line">127.0.0.1:6379(TX)&gt; get k3</span><br><span class="line">QUEUED</span><br><span class="line">127.0.0.1:6379(TX)&gt; <span class="built_in">exec</span></span><br><span class="line">1) (error) ERR value is not an <span class="built_in">integer</span> or out of range <span class="comment"># 报错的语句</span></span><br><span class="line">2) OK <span class="comment"># 但不会影响其余正常语句的执行</span></span><br><span class="line">3) OK</span><br><span class="line">4) <span class="string">&quot;v3&quot;</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="8-Redis实现乐观锁"><a href="#8-Redis实现乐观锁" class="headerlink" title="8. Redis实现乐观锁"></a>8. Redis实现乐观锁</h2><p>悲观锁和乐观锁的区别:</p>
-<ol>
-<li>悲观锁: 很悲观，认为什么时候都可能会出问题，无论做什么都会加锁</li>
-<li>乐观锁: 很乐观，认为什么时候都不会出问题，更新数据的时候去判断一下，看这个数据是否被人修改过</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 正常流程</span></span><br><span class="line">127.0.0.1:6379&gt; <span class="built_in">set</span> balance 100</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; <span class="built_in">set</span> out 0</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; watch balance <span class="comment"># 监视balance</span></span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; multi </span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379(TX)&gt; incrby balance -10</span><br><span class="line">QUEUED</span><br><span class="line">127.0.0.1:6379(TX)&gt; incrby out 10</span><br><span class="line">QUEUED</span><br><span class="line">127.0.0.1:6379(TX)&gt; <span class="built_in">exec</span> <span class="comment"># 如果在这个事务执行的期间，数据没有发生别的变化，那是可以正常执行完毕的</span></span><br><span class="line">1) (<span class="built_in">integer</span>) 90</span><br><span class="line">2) (<span class="built_in">integer</span>) 10</span><br></pre></td></tr></table></figure>
-
-<p>但如果在事务在执行<code>exec</code>之前，有其他的线程修改了balance，这样就会导致事务执行不成功</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379(TX)&gt; <span class="built_in">exec</span></span><br><span class="line">(nil) <span class="comment"># 一旦别的地方修改了这个balance,那此时这里的事务执行结果就是nil</span></span><br><span class="line">127.0.0.1:6379&gt; </span><br></pre></td></tr></table></figure>
-
-<p>如果执行失败，可以通过<code>unwatch</code>来解锁</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; unwatch <span class="comment"># 解锁</span></span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; watch balance <span class="comment"># 获取balance最新的值，再次监视</span></span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; multi</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379(TX)&gt; incr balance</span><br><span class="line">QUEUED</span><br><span class="line">127.0.0.1:6379(TX)&gt; decr out</span><br><span class="line">QUEUED</span><br><span class="line">127.0.0.1:6379(TX)&gt; <span class="built_in">exec</span> <span class="comment"># 对比监视的值是否发生变化，如果没有变化，那么可以执行成功，如果变化了就执行失败</span></span><br><span class="line">1) (<span class="built_in">integer</span>) 1101</span><br><span class="line">2) (<span class="built_in">integer</span>) -1</span><br></pre></td></tr></table></figure>
-
-<h2 id="9-Redis-conf"><a href="#9-Redis-conf" class="headerlink" title="9. Redis.conf"></a>9. Redis.conf</h2><ol>
-<li><p>配置文件在unit单位对大小写不敏感</p>
-</li>
-<li><p>Network模块</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 绑定的ip</span></span><br><span class="line"><span class="built_in">bind</span> 127.0.0.1 ::1 </span><br><span class="line"><span class="comment"># 保护模式是否开启</span></span><br><span class="line">protected-mode <span class="built_in">yes</span></span><br><span class="line"><span class="comment"># 端口号</span></span><br><span class="line">port 6379</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>General模块</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 是否以守护进程开启</span></span><br><span class="line">daemonize <span class="built_in">yes</span></span><br><span class="line"><span class="comment"># 如果以守护进程的方式运行，就需要指定一个pid文件</span></span><br><span class="line">pidfile /var/run/redis/redis-server.pid</span><br><span class="line"><span class="comment"># 日志级别</span></span><br><span class="line">loglevel notice</span><br><span class="line"><span class="comment"># 日志文件名</span></span><br><span class="line">logfile /var/log/redis/redis-server.log</span><br><span class="line"><span class="comment"># 数据库的数量，默认16个</span></span><br><span class="line">databases 16</span><br><span class="line"><span class="comment"># 是否显示logo</span></span><br><span class="line">always-show-logo <span class="built_in">yes</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>snapshotting模块<br>持久化，在规定的时间内，执行了多少操作，就会持久化到rdb文件。（aof文件）</p>
-</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 如果900s内至少有一个key进行过修改，我们就进行持久化操作</span></span><br><span class="line">save 900 1 </span><br><span class="line"><span class="comment"># 如果300s内至少有10个key进行过修改，我们就进行持久化操作</span></span><br><span class="line">save 300 10</span><br><span class="line"><span class="comment"># 如果60s内至少有10000个key进行过修改，我们就进行持久化操作</span></span><br><span class="line">save 60 10000</span><br><span class="line"><span class="comment"># 如果持久化的过程出错了，是否需要继续工作</span></span><br><span class="line">stop-writes-on-bgsave-error <span class="built_in">yes</span></span><br><span class="line"><span class="comment"># 是否压缩rdb文件，需要消耗一些cpu资源</span></span><br><span class="line">rdbcompression <span class="built_in">yes</span></span><br><span class="line"><span class="comment"># 保存rdb文件的时候，进行错误的检查校验</span></span><br><span class="line">rdbchecksum <span class="built_in">yes</span></span><br><span class="line"><span class="comment"># rdb文件的保存目录</span></span><br><span class="line"><span class="built_in">dir</span> /var/lib/redis</span><br></pre></td></tr></table></figure>
-
-<ol start="5">
-<li><p>REPLICATION 主从复制模块</p>
-</li>
-<li><p>security 安全模块</p>
-</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 是否需要密码</span></span><br><span class="line">requirepass foobared</span><br></pre></td></tr></table></figure>
-
-<ol start="7">
-<li>client模块</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 最大客户端连接数</span></span><br><span class="line">maxclients 10000</span><br><span class="line"><span class="comment"># 最大的内存设置</span></span><br><span class="line">maxmemory &lt;bytes&gt;</span><br><span class="line"><span class="comment"># 内存到达上限后的策略</span></span><br><span class="line">maxmemory-policy noeviction</span><br></pre></td></tr></table></figure>
-
-<ol start="8">
-<li>APPEND ONLY MODE</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 默认不开启aof模式</span></span><br><span class="line">appendonly no</span><br><span class="line"><span class="comment"># 持久化文件的名字</span></span><br><span class="line">appendfilename <span class="string">&quot;appendonly.aof&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># appendfsync always  # 每次修改了都会同步，速度比较慢</span></span><br><span class="line">appendfsync everysec  <span class="comment"># 每秒都同步一下</span></span><br><span class="line"><span class="comment"># appendfsync no      # 不执行sync </span></span><br></pre></td></tr></table></figure>
       
 
       
@@ -336,7 +275,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=https://guolizhi.github.io/2023/08/01/Redis%E5%9F%BA%E7%A1%80/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=https://guolizhi.github.io/2024/04/07/redis/Redis-String/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -350,15 +289,11 @@
   
 <nav id="article-nav">
   
-    <a href="/2023/08/01/Golang%E6%95%B0%E7%BB%84%E5%92%8C%E5%88%87%E7%89%87/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          Golang数组和切片
-        
-      </div>
-    </a>
   
+    <a href="/2024/04/07/redis/Redis-Hash/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Redis Hash</div>
+      <i class="icon-circle-right"></i>
+    </a>
   
 </nav>
 
